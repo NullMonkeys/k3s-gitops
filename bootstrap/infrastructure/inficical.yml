@@ -6,7 +6,7 @@ metadata:
   name: infisical
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-5"
+    argocd.argoproj.io/sync-wave: "-10"
 
 spec:
   project: infrastructure
