@@ -1,0 +1,25 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: applications
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+spec:
+  sourceRepos:
+    - "https://github.com/NullMonkeys/k3s-gitops.git"
+  destinations:
+    - server: "https://kubernetes.default.svc"
+      namespace: "*"
+  clusterResourceBlacklist:
+    - group: ""
+      kind: Namespace
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"

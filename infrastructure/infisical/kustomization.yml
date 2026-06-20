@@ -1,0 +1,17 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: infisical-operator-system
+
+resources:
+  - infisical-connection.yml
+  - infisical-auth.yml
+
+helmCharts:
+  - name: secrets-operator
+    repo: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/
+    version: 0.11.1
+    releaseName: secrets-operator
+    namespace: infisical-operator-system
+    includeCRDs: true

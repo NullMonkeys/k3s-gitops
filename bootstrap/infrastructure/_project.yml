@@ -1,0 +1,18 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: infrastructure
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+spec:
+  description: Core cluster infrastructure and controllers
+  sourceRepos:
+    - "https://github.com/NullMonkeys/k3s-gitops.git"
+  destinations:
+    - server: "https://kubernetes.default.svc"
+      namespace: "*"
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"

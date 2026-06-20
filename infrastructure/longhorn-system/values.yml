@@ -1,0 +1,10 @@
+---
+defaultSettings:
+  defaultDataPath: /var/lib/longhorn
+  storageReservedPercentageForDefaultDisk: 5
+  storageMinimalAvailablePercentage: 5
+  defaultReplicaCount: 1
+  replicaAutoBalance: disabled
+
+preUpgradeChecker:
+  jobEnabled: false
