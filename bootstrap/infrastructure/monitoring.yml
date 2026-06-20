@@ -13,7 +13,7 @@ spec:
 
   source:
     repoURL: "https://github.com/NullMonkeys/k3s-gitops.git"
-    targetRevision: monitoring
+    targetRevision: HEAD
     path: infrastructure/monitoring
 
   destination:
