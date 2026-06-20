@@ -57,7 +57,7 @@ grafana:
     storageClassName: longhorn
     size: 2Gi
     accessModes:
-      - ReadWriteMany
+      - ReadWriteOnce
 
 prometheus:
   prometheusSpec:
@@ -76,7 +76,7 @@ prometheus:
         spec:
           storageClassName: longhorn
           accessModes:
-            - ReadWriteMany
+            - ReadWriteOnce
           resources:
             requests:
               storage: 10Gi
