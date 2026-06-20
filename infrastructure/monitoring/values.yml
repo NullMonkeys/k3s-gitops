@@ -1,0 +1,82 @@
+---
+kubeControllerManager:
+  enabled: false
+kubeProxy:
+  enabled: false
+kubeScheduler:
+  enabled: false
+
+grafana:
+  replicas: 1
+
+  admin:
+    existingSecret: monitoring-secrets
+    userKey: admin-user
+    passwordKey: admin-password
+
+  deploymentStrategy:
+    type: Recreate
+
+  grafana.ini:
+    server:
+      root_url: https://monitoring.internal.nullmonkeys.com
+
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      searchNamespace: ALL
+
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: default
+          orgId: 1
+          folder: ""
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+
+  dashboards:
+    default:
+      argocd:
+        gnetId: 14584
+        revision: 1
+        datasource: Prometheus
+      cnpg-overview:
+        gnetId: 20417
+        revision: 4
+        datasource: Prometheus
+
+  persistence:
+    enabled: true
+    type: pvc
+    storageClassName: longhorn
+    size: 2Gi
+    accessModes:
+      - ReadWriteOnce
+
+prometheus:
+  prometheusSpec:
+    retention: 7d
+    retentionSize: 8GB
+
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
+    serviceMonitorNamespaceSelector: {}
+    podMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelector: {}
+    podMonitorNamespaceSelector: {}
+
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi

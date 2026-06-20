@@ -5,6 +5,7 @@ defaultSettings:
   storageMinimalAvailablePercentage: 5
   defaultReplicaCount: 1
   replicaAutoBalance: disabled
+  dataLocality: best-effort
 
 preUpgradeChecker:
   jobEnabled: false
