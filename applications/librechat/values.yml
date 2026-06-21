@@ -31,6 +31,8 @@ ingress:
 
 mongodb:
   enabled: true
+  image:
+    repository: bitnami/mongodb
   persistence:
     size: 5Gi
 
