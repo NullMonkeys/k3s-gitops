@@ -33,6 +33,7 @@ mongodb:
   enabled: true
   image:
     repository: bitnami/mongodb
+    tag: latest
   persistence:
     size: 5Gi
 
