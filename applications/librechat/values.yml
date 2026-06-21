@@ -5,6 +5,7 @@ global:
     existingSecretName: "librechat-secrets"
 
 librechat:
+  existingSecretName: "librechat-secrets"
   imageVolume:
     size: 2Gi
     storageClassName: longhorn
@@ -38,3 +39,5 @@ meilisearch:
   persistence:
     enabled: true
     storageClass: longhorn
+  auth:
+    existingMasterKeySecret: "librechat-secrets"
