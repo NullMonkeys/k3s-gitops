@@ -10,6 +10,10 @@ librechat:
     size: 2Gi
     storageClassName: longhorn
 
+  configEnv:
+    ALLOW_REGISTRATION: "true"
+    ALLOW_EMAIL_LOGIN: "true"
+
   configYamlContent: |
     version: 1.3.13
     cache: true
