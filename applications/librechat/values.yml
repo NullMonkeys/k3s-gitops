@@ -1,0 +1,40 @@
+replicaCount: 1
+
+global:
+  librechat:
+    existingSecretName: "librechat-secrets"
+
+librechat:
+  imageVolume:
+    size: 2Gi
+    storageClassName: longhorn
+
+  configYamlContent: |
+    version: 1.3.13
+    cache: true
+
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns
+  hosts:
+    - host: chat.nullmonkeys.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: librechat-tls
+      hosts:
+        - chat.nullmonkeys.com
+
+mongodb:
+  enabled: true
+  persistence:
+    size: 5Gi
+
+meilisearch:
+  enabled: true
+  persistence:
+    enabled: true
+    storageClass: longhorn
