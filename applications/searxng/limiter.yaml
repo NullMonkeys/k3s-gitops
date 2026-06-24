@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: searxng-limiter
+  namespace: searxng
+
+data:
+  limiter.toml: |
+    [botdetection]
+    trusted_proxies = [
+      '127.0.0.0/8',
+      '::1',
+      '172.16.0.0/12',
+      '10.0.0.0/8',
+    ]
+
+    pass_searxng_org = true
