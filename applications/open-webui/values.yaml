@@ -2,11 +2,7 @@
 replicaCount: 3
 
 ollama:
-  enabled: true
-  ollama:
-    models:
-      pull:
-        - "qwen3-embedding:0.6b"
+  enabled: false
 
 tika:
   enabled: false
@@ -52,6 +48,13 @@ extraEnvVars:
         key: webui-secret-key
   - name: WEBUI_URL
     value: "https://chat.nullmonkeys.com"
+  - name: CORS_ALLOW_ORIGIN
+    value: "https://chat.nullmonkeys.com"
+
+  - name: ENABLE_OLLAMA_API
+    value: "True"
+  - name: OLLAMA_BASE_URL
+    value: "http://ollama.ollama.svc.cluster.local:11434"
 
   - name: ENABLE_SIGNUP
     value: "False"
@@ -108,6 +111,8 @@ extraEnvVars:
     value: "mistral"
   - name: AUDIO_TTS_MODEL
     value: "voxtral-mini-tts-2603"
+  - name: AUDIO_TTS_VOICE
+    value: "gb_oliver_neutral"
   - name: AUDIO_TTS_MISTRAL_API_KEY
     valueFrom:
       secretKeyRef:
