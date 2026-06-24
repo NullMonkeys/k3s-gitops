@@ -9,6 +9,8 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-dns
 
 spec:
+  ingressClassName: traefik
+
   tls:
     - hosts:
         - search.nullmonkeys.com
