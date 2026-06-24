@@ -70,7 +70,7 @@ data:
         - method
 
     valkey:
-      url: "valkey://valkey-primary:6379/0"
+      url: "redis://valkey-primary:6379/0"
 
     plugins:
       searx.plugins.calculator.SXNGPlugin:
