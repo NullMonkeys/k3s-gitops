@@ -84,6 +84,23 @@ extraEnvVars:
   - name: ENABLE_IMAGE_EDIT
     value: "False"
 
+  - name: ENABLE_WEB_SEARCH
+    value: "True"
+  - name: ENABLE_SEARCH_QUERY_GENERATION
+    value: "True"
+  - name: WEB_SEARCH_RESULT_COUNT
+    value: "5"
+  - name: WEB_SEARCH_CONCURRENT_REQUESTS
+    value: "10"
+  - name: WEB_SEARCH_ENGINE
+    value: "searxng"
+  - name: SEARXNG_QUERY_URL
+    value: "https://search.nullmonkeys.com/search?q=<query>"
+  - name: SEARXNG_LANGUAGE
+    value: "all"
+  - name: WEB_LOADER_ENGINE
+    value: "safe_web"
+
   - name: RAG_EMBEDDING_ENGINE
     value: "ollama"
   - name: RAG_EMBEDDING_MODEL
