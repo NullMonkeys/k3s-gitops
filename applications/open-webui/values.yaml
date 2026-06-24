@@ -23,7 +23,7 @@ workload:
 websocket:
   enabled: true
   manager: redis
-  url: "redis://redis-master.open-webui.svc.cluster.local:6379/1"
+  url: "redis://redis-master.open-webui.svc.cluster.local:6379/0"
   redis:
     enabled: false
 
@@ -113,9 +113,6 @@ extraEnvVars:
       secretKeyRef:
         name: open-webui-secrets
         key: mistral-api-key
-
-  - name: REDIS_URL
-    value: "redis://redis-master.open-webui.svc.cluster.local:6379/0"
 
   - name: DATABASE_URL
     valueFrom:
