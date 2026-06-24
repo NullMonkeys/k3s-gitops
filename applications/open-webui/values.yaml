@@ -74,6 +74,8 @@ extraEnvVars:
   - name: ENABLE_TAGS_GENERATION
     value: "False"
 
+  - name: ENABLE_DIRECT_CONNECTIONS
+    value: "True"
   - name: ENABLE_API_KEYS
     value: "True"
 
