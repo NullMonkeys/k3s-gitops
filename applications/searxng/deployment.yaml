@@ -19,6 +19,7 @@ spec:
         app: searxng
 
     spec:
+      enableServiceLinks: false
       containers:
         - name: searxng
           image: ghcr.io/searxng/searxng:2026.6.24-e3126b89e
