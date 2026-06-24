@@ -1,0 +1,128 @@
+---
+replicaCount: 3
+
+ollama:
+  enabled: false
+
+ollamaUrls:
+  - "http://ollama.ollama.svc.cluster.local:11434"
+
+tika:
+  enabled: false
+
+pipelines:
+  enabled: false
+
+terminals:
+  enabled: false
+
+workload:
+  kind: Deployment
+
+websocket:
+  enabled: true
+  manager: redis
+  url: "redis://redis-master.open-webui.svc.cluster.local:6379/0"
+  redis:
+    enabled: false
+
+ingress:
+  enabled: true
+  class: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns
+  host: chat.nullmonkeys.com
+  tls: true
+
+persistence:
+  enabled: true
+  size: 10Gi
+  accessModes:
+    - ReadWriteMany
+  storageClass: longhorn
+
+enableOpenaiApi: false
+
+extraEnvVars:
+  - name: WEBUI_SECRET_KEY
+    valueFrom:
+      secretKeyRef:
+        name: open-webui-secrets
+        key: webui-secret-key
+  - name: WEBUI_URL
+    value: "https://chat.nullmonkeys.com"
+  - name: CORS_ALLOW_ORIGIN
+    value: "https://chat.nullmonkeys.com"
+
+  - name: ENABLE_SIGNUP
+    value: "False"
+  - name: ENABLE_USER_WEBHOOKS
+    value: "True"
+  - name: ENABLE_USER_STATUS
+    value: "False"
+  - name: SHOW_ADMIN_DETAILS
+    value: "False"
+  - name: USER_AGENT
+    value: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+
+  - name: ENABLE_EVALUATION_ARENA_MODELS
+    value: "False"
+  - name: ENABLE_MESSAGE_RATING
+    value: "False"
+  - name: ENABLE_COMMUNITY_SHARING
+    value: "False"
+  - name: ENABLE_TAGS_GENERATION
+    value: "False"
+
+  - name: ENABLE_DIRECT_CONNECTIONS
+    value: "True"
+  - name: ENABLE_API_KEYS
+    value: "True"
+
+  - name: ENABLE_IMAGE_GENERATION
+    value: "False"
+  - name: ENABLE_IMAGE_EDIT
+    value: "False"
+
+  - name: RAG_EMBEDDING_ENGINE
+    value: "ollama"
+  - name: RAG_EMBEDDING_MODEL
+    value: "qwen3-embedding:0.6b"
+
+  - name: CONTENT_EXTRACTION_ENGINE
+    value: "mistral_ocr"
+  - name: MISTRAL_OCR_API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: open-webui-secrets
+        key: mistral-api-key
+
+  - name: AUDIO_STT_ENGINE
+    value: "mistral"
+  - name: AUDIO_STT_MODEL
+    value: "voxtral-mini-2602"
+  - name: AUDIO_STT_MISTRAL_API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: open-webui-secrets
+        key: mistral-api-key
+
+  - name: AUDIO_TTS_ENGINE
+    value: "mistral"
+  - name: AUDIO_TTS_MODEL
+    value: "voxtral-mini-tts-2603"
+  - name: AUDIO_TTS_VOICE
+    value: "gb_oliver_neutral"
+  - name: AUDIO_TTS_MISTRAL_API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: open-webui-secrets
+        key: mistral-api-key
+
+  - name: DATABASE_URL
+    valueFrom:
+      secretKeyRef:
+        name: open-webui-db-app
+        key: uri
+  - name: VECTOR_DB
+    value: "pgvector"

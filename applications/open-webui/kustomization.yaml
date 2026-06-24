@@ -1,0 +1,24 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: open-webui
+
+resources:
+  - secrets.yaml
+  - postgres.yaml
+
+helmCharts:
+  - name: open-webui
+    repo: https://helm.openwebui.com/
+    version: 14.8.0
+    releaseName: open-webui
+    namespace: open-webui
+    valuesFile: values.yaml
+
+  - name: redis
+    repo: https://charts.bitnami.com/bitnami
+    version: 27.0.12
+    releaseName: redis
+    namespace: open-webui
+    valuesFile: redis-values.yaml
