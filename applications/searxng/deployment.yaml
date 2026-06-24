@@ -36,6 +36,9 @@ spec:
                   name: searxng-secrets
                   key: secret-key
 
+            - name: GRANIAN_HOST
+              value: "0.0.0.0"
+
           volumeMounts:
             - name: searxng-config
               mountPath: /etc/searxng/settings.yml
