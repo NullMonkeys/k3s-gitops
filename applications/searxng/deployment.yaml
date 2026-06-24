@@ -36,19 +36,19 @@ spec:
                   key: secret-key
 
           volumeMounts:
-            - name: config
+            - name: searxng-config
               mountPath: /etc/searxng/settings.yml
               subPath: settings.yml
               readOnly: true
-            - name: limiter-config
+            - name: searxng-limiter
               mountPath: /etc/searxng/limiter.toml
               subPath: limiter.toml
               readOnly: true
 
       volumes:
-        - name: config
+        - name: searxng-config
           configMap:
             name: searxng-config
-        - name: limiter-config
+        - name: searxng-limiter
           configMap:
-            name: limiter-config
+            name: searxng-limiter
