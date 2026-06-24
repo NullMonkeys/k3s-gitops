@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: searxng
+  namespace: searxng
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: searxng
+
+  template:
+    metadata:
+      labels:
+        app: searxng
+
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: searxng
+          image: ghcr.io/searxng/searxng:2026.6.24-e3126b89e
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 8080
+              name: http
+
+          env:
+            - name: SEARXNG_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: searxng-secrets
+                  key: secret-key
+
+            - name: GRANIAN_HOST
+              value: "0.0.0.0"
+
+          volumeMounts:
+            - name: searxng-config
+              mountPath: /etc/searxng/settings.yml
+              subPath: settings.yml
+              readOnly: true
+            - name: searxng-limiter
+              mountPath: /etc/searxng/limiter.toml
+              subPath: limiter.toml
+              readOnly: true
+
+      volumes:
+        - name: searxng-config
+          configMap:
+            name: searxng-config
+        - name: searxng-limiter
+          configMap:
+            name: searxng-limiter

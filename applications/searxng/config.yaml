@@ -1,0 +1,95 @@
+---
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: searxng-config
+  namespace: searxng
+
+data:
+  settings.yml: |
+    use_default_settings: true
+
+    general:
+      debug: false
+      instance_name: "NullMonkeys Search"
+      privacypolicy_url: false
+      donation_url: false
+      contact_url: false
+      enable_metrics: false
+
+    search:
+      safe_search: 1
+      autocomplete: "duckduckgo"
+      favicon_resolver: "google"
+      ban_time_on_fail: 5
+      max_page: 0
+      max_ban_time_on_fail: 120
+      suspended_times:
+        SearxEngineAccessDenied: 86400
+        SearxEngineCaptcha: 86400
+        SearxEngineTooManyRequests: 3600
+        cf_SearxEngineCaptcha: 1296000
+        cf_SearxEngineAccessDenied: 86400
+        recaptcha_SearxEngineCaptcha: 604800
+      formats:
+        - html
+        - csv
+        - json
+        - rss
+
+    server:
+      base_url: https://search.nullmonkeys.com
+      port: 8080
+      bind_address: "0.0.0.0"
+      limiter: true
+      public_instance: true
+      image_proxy: true
+      method: "POST"
+      default_http_headers:
+        X-Content-Type-Options : nosniff
+        X-Download-Options : noopen
+        X-Robots-Tag : noindex, nofollow
+        Referrer-Policy : no-referrer
+
+    ui:
+      query_in_title: false
+      center_alignment: false
+      cache_url: https://web.archive.org/web/
+      default_theme: simple
+      theme_args:
+        simple_style: auto
+      search_on_category_select: true
+      hotkeys: vim
+      url_formatting: pretty
+
+    preferences:
+      lock:
+        - autocomplete
+        - image_proxy
+        - method
+
+    valkey:
+      url: "valkey://valkey-primary:6379/0"
+
+    plugins:
+      searx.plugins.calculator.SXNGPlugin:
+        active: true
+      searx.plugins.infinite_scroll.SXNGPlugin:
+        active: true
+      searx.plugins.hash_plugin.SXNGPlugin:
+        active: true
+      searx.plugins.self_info.SXNGPlugin:
+        active: true
+      searx.plugins.tracker_url_remover.SXNGPlugin:
+        active: true
+      searx.plugins.unit_converter.SXNGPlugin:
+        active: true
+      searx.plugins.ahmia_filter.SXNGPlugin:
+        active: true
+      searx.plugins.hostnames.SXNGPlugin:
+        active: true
+      searx.plugins.oa_doi_rewrite.SXNGPlugin:
+        active: false
+      searx.plugins.tor_check.SXNGPlugin:
+        active: true

@@ -1,0 +1,42 @@
+---
+architecture: replication
+
+auth:
+  enabled: false
+
+commonConfiguration: |-
+  maxmemory 256mb
+  maxmemory-policy allkeys-lru
+
+master:
+  count: 1
+  persistence:
+    enabled: false
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 256Mi
+
+replica:
+  replicaCount: 2
+  persistence:
+    enabled: false
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 256Mi
+
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: valkey
+            topologyKey: kubernetes.io/hostname
