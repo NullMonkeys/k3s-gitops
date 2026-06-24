@@ -4,6 +4,9 @@ replicaCount: 3
 ollama:
   enabled: false
 
+ollamaUrls:
+  - "http://ollama.ollama.svc.cluster.local:11434"
+
 tika:
   enabled: false
 
@@ -50,9 +53,6 @@ extraEnvVars:
     value: "https://chat.nullmonkeys.com"
   - name: CORS_ALLOW_ORIGIN
     value: "https://chat.nullmonkeys.com"
-
-  - name: OLLAMA_BASE_URL
-    value: "http://ollama.ollama.svc.cluster.local:11434"
 
   - name: ENABLE_SIGNUP
     value: "False"
