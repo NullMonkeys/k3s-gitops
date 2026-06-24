@@ -5,14 +5,14 @@ kind: Kustomization
 namespace: monitoring
 
 resources:
-  - ingress.yml
-  - secrets.yml
+  - ingress.yaml
+  - secrets.yaml
 
 helmCharts:
   - name: kube-prometheus-stack
     repo: oci://ghcr.io/prometheus-community/charts
     version: 86.3.2
     releaseName: kube-prometheus-stack
-    valuesFile: values.yml
+    valuesFile: values.yaml
     namespace: monitoring
     includeCRDs: true

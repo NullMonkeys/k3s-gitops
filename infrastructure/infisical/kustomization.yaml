@@ -5,8 +5,8 @@ kind: Kustomization
 namespace: infisical-operator-system
 
 resources:
-  - infisical-connection.yml
-  - infisical-auth.yml
+  - infisical-connection.yaml
+  - infisical-auth.yaml
 
 helmCharts:
   - name: secrets-operator
