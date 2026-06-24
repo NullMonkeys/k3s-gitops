@@ -6,7 +6,7 @@ namespace: argocd
 
 resources:
   - https://raw.githubusercontent.com/argoproj/argo-cd/v3.4.4/manifests/install.yaml
-  - ingress.yml
+  - ingress.yaml
 
 configMapGenerator:
   - name: argocd-cmd-params-cm

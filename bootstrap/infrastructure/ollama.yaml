@@ -1,0 +1,30 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: ollama
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+
+spec:
+  project: infrastructure
+
+  source:
+    repoURL: "https://github.com/NullMonkeys/k3s-gitops.git"
+    targetRevision: HEAD
+    path: infrastructure/ollama
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ollama
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

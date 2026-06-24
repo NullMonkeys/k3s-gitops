@@ -3,15 +3,15 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - issuers.yml
-  - secrets.yml
+  - issuers.yaml
+  - secrets.yaml
 
 helmCharts:
   - name: cert-manager
     repo: https://charts.jetstack.io
     version: v1.20.2
     releaseName: cert-manager
-    valuesFile: values.yml
+    valuesFile: values.yaml
     namespace: cert-manager
     includeCRDs: true
 
