@@ -9,14 +9,14 @@ metadata:
 
 spec:
   acme:
-    server: "https://app.infisical.com/api/v1/cert-manager/acme/applications/005ab3f5-38ec-45d5-90b4-3824294e5e55/profiles/6f6536c7-a11c-42f7-98a4-716075e99044/directory"
+    server: "https://app.infisical.com/api/v1/cert-manager/acme/applications/2abf26f1-619f-4cf0-8086-ff8750e9f94b/profiles/95a9f5fe-11a0-492b-a799-ab610f2aecf3/directory"
     email: no-reply@nullmonkeys.com
 
     privateKeySecretRef:
       name: infisical-acme-account
 
     externalAccountBinding:
-      keyID: "fbd655d2-6365-4cd7-ba3d-2e7cb389785e"
+      keyID: "319c7554-75f5-4d33-bb98-a7d4779ff260"
       keySecretRef:
         name: cert-manager-secrets
         key: eab-secret
