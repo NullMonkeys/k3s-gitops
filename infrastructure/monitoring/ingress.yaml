@@ -6,12 +6,13 @@ metadata:
   name: monitoring
   namespace: monitoring
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-dns
+    cert-manager.io/cluster-issuer: infisical-acme
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
 
 spec:
   ingressClassName: traefik
+
   tls:
     - hosts:
         - monitoring.internal.nullmonkeys.com

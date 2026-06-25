@@ -3,42 +3,26 @@ apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 
 metadata:
-  name: letsencrypt-http
+  name: infisical-acme
   annotations:
     argocd.argoproj.io/sync-wave: "-5"
 
 spec:
   acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
+    server: "https://app.infisical.com/api/v1/cert-manager/acme/applications/005ab3f5-38ec-45d5-90b4-3824294e5e55/profiles/6f6536c7-a11c-42f7-98a4-716075e99044/directory"
     email: no-reply@nullmonkeys.com
 
     privateKeySecretRef:
-      name: letsencrypt-http
+      name: infisical-acme-account
+
+    externalAccountBinding:
+      keyID: "fbd655d2-6365-4cd7-ba3d-2e7cb389785e"
+      keySecretRef:
+        name: cert-manager-secrets
+        key: eab-secret
+      keyAlgorithm: HS256
 
     solvers:
       - http01:
           ingress:
             class: traefik
-
----
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-dns
-  annotations:
-    argocd.argoproj.io/sync-wave: "-5"
-
-spec:
-  acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
-    email: no-reply@nullmonkeys.com
-
-    privateKeySecretRef:
-      name: letsencrypt-dns
-
-    solvers:
-      - dns01:
-          cloudflare:
-            apiTokenSecretRef:
-              name: cert-manager-secrets
-              key: cloudflare-api-token

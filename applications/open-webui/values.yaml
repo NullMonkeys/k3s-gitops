@@ -30,7 +30,7 @@ ingress:
   enabled: true
   class: traefik
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-dns
+    cert-manager.io/cluster-issuer: infisical-acme
   host: chat.nullmonkeys.com
   tls: true
 

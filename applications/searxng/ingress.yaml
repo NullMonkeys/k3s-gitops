@@ -6,7 +6,7 @@ metadata:
   name: searxng
   namespace: searxng
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-dns
+    cert-manager.io/cluster-issuer: infisical-acme
 
 spec:
   ingressClassName: traefik
