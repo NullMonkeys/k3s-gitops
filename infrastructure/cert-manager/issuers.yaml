@@ -23,6 +23,16 @@ spec:
       keyAlgorithm: HS256
 
     solvers:
-      - http01:
+      - selector:
+          dnsZones:
+            - "internal.nullmonkeys.com"
+        dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: cert-manager-secrets
+              key: cloudflare-api-token
+
+      - selector: {}
+        http01:
           ingress:
             class: traefik
