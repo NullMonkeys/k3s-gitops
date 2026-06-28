@@ -1,0 +1,85 @@
+---
+global:
+  env:
+    - name: AUTHENTIK_SECRET_KEY
+      valueFrom:
+        secretKeyRef:
+          name: authentik-secrets
+          key: secret-key
+
+    - name: AUTHENTIK_POSTGRESQL__PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: authentik-db-app
+          key: password
+
+    - name: AUTHENTIK_POSTGRESQL__READ_REPLICAS__0__HOST
+      value: "authentik-db-ro"
+    - name: AUTHENTIK_POSTGRESQL__READ_REPLICAS__0__NAME
+      value: "authentik"
+    - name: AUTHENTIK_POSTGRESQL__READ_REPLICAS__0__USER
+      value: "authentik"
+    - name: AUTHENTIK_POSTGRESQL__READ_REPLICAS__0__PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: authentik-db-app
+          key: password
+
+  volumes:
+    - name: authentik-data
+      persistentVolumeClaim:
+        claimName: authentik-data
+
+  volumeMounts:
+    - name: authentik-data
+      mountPath: /data
+
+authentik:
+  enabled: true
+
+  postgresql:
+    host: "authentik-db-rw"
+    name: "authentik"
+    user: "authentik"
+
+postgresql:
+  enabled: false
+
+server:
+  enabled: true
+  replicas: 2
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+
+    annotations:
+      cert-manager.io/cluster-issuer: infisical-acme
+
+    hosts:
+      - auth.nullmonkeys.com
+
+    tls:
+      - hosts:
+          - auth.nullmonkeys.com
+        secretName: authentik-tls
+
+worker:
+  enabled: true
+  replicas: 2
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"

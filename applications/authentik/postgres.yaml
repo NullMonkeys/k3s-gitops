@@ -1,0 +1,59 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+
+metadata:
+  name: authentik-db
+  namespace: authentik
+
+spec:
+  instances: 3
+
+  monitoring:
+    enablePodMonitor: true
+
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+
+  storage:
+    size: 2Gi
+    storageClass: longhorn
+
+  bootstrap:
+    initdb:
+      database: authentik
+      owner: authentik
+
+  backup:
+    retentionPolicy: "3d"
+
+    barmanObjectStore:
+      destinationPath: s3://authentik-backups/
+      endpointURL: https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com
+
+      s3Credentials:
+        accessKeyId:
+          name: authentik-secrets
+          key: s3-access-key-id
+        secretAccessKey:
+          name: authentik-secrets
+          key: s3-secret-access-key
+
+      wal:
+        compression: gzip
+        maxParallel: 8
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+
+metadata:
+  name: authentik-db-daily-backup
+  namespace: authentik
+
+spec:
+  schedule: "0 0 2 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: authentik-db
