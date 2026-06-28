@@ -55,4 +55,5 @@ metadata:
 spec:
   schedule: "0 0 2 * * *"
   backupOwnerReference: self
-  clusterName: authentik-db
+  cluster:
+    name: authentik-db
