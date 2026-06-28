@@ -54,6 +54,34 @@ extraEnvVars:
   - name: CORS_ALLOW_ORIGIN
     value: "https://chat.nullmonkeys.com"
 
+  - name: OAUTH_CLIENT_ID
+    value: ""
+  - name: OAUTH_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: open-webui-secrets
+        key: oauth-client-secret
+  - name: OAUTH_PROVIDER_NAME
+    value: "authentik"
+  - name: OAUTH_SCOPES
+    value: "openid email profile roles"
+  - name: OAUTH_MERGE_ACCOUNTS_BY_EMAIL
+    value: "True"
+
+  - name: OPENID_PROVIDER_URL
+    value: "https://auth.nullmonkeys.com/application/o/open-webui/.well-known/openid-configuration"
+  - name: OPENID_REDIRECT_URI
+    value: "https://chat.nullmonkeys.com/oauth/oidc/callback"
+
+  - name: ENABLE_OAUTH_SIGNUP
+    value: "True"
+  - name: ENABLE_OAUTH_ROLE_MANAGEMENT
+    value: "True"
+  - name: ENABLE_LOGIN_FORM
+    value: "False"
+  - name: ENABLE_PASSWORD_AUTH
+    value: "False"
+
   - name: ENABLE_SIGNUP
     value: "False"
   - name: ENABLE_USER_WEBHOOKS
