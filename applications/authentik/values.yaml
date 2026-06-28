@@ -61,7 +61,7 @@ server:
     enabled: true
     ingressClassName: traefik
 
-    labels:
+    annotations:
       cert-manager.io/cluster-issuer: infisical-acme
 
     hosts:
