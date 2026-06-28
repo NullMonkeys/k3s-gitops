@@ -55,7 +55,7 @@ extraEnvVars:
     value: "https://chat.nullmonkeys.com"
 
   - name: OAUTH_CLIENT_ID
-    value: ""
+    value: "IpGPyo3tdm9TwHOnSP4oHCLT7eKDOuBIhyXyXTNU"
   - name: OAUTH_CLIENT_SECRET
     valueFrom:
       secretKeyRef:
