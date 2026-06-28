@@ -61,6 +61,9 @@ server:
     enabled: true
     ingressClassName: traefik
 
+    labels:
+      cert-manager.io/cluster-issuer: infisical-acme
+
     hosts:
       - auth.nullmonkeys.com
 
