@@ -4,9 +4,6 @@ replicaCount: 3
 ollama:
   enabled: false
 
-ollamaUrls:
-  - "http://ollama.ollama.svc.cluster.local:11434"
-
 tika:
   enabled: false
 
@@ -128,11 +125,6 @@ extraEnvVars:
     value: "all"
   - name: WEB_LOADER_ENGINE
     value: "safe_web"
-
-  - name: RAG_EMBEDDING_ENGINE
-    value: "ollama"
-  - name: RAG_EMBEDDING_MODEL
-    value: "qwen3-embedding:0.6b"
 
   - name: CONTENT_EXTRACTION_ENGINE
     value: "mistral_ocr"
