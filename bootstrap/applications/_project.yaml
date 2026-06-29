@@ -5,7 +5,7 @@ metadata:
   name: applications
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-15"
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   sourceRepos:
     - "https://github.com/NullMonkeys/k3s-gitops.git"

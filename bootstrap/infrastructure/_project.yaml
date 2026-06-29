@@ -5,7 +5,7 @@ metadata:
   name: infrastructure
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-15"
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   description: Core cluster infrastructure and controllers
   sourceRepos:
