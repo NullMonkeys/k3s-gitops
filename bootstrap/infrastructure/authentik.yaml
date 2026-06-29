@@ -9,12 +9,12 @@ metadata:
     argocd.argoproj.io/sync-wave: "10"
 
 spec:
-  project: applications
+  project: infrastructure
 
   source:
     repoURL: "https://github.com/NullMonkeys/k3s-gitops.git"
     targetRevision: HEAD
-    path: applications/authentik
+    path: infrastructure/authentik
 
   destination:
     server: https://kubernetes.default.svc
