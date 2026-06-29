@@ -120,7 +120,7 @@ extraEnvVars:
   - name: WEB_SEARCH_ENGINE
     value: "searxng"
   - name: SEARXNG_QUERY_URL
-    value: "https://search.nullmonkeys.com/search?q=<query>"
+    value: "http://searxng.searxng.svc.cluster.local/search?q=<query>"
   - name: SEARXNG_LANGUAGE
     value: "all"
   - name: WEB_LOADER_ENGINE
