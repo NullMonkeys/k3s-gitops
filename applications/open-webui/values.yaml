@@ -11,7 +11,40 @@ pipelines:
   enabled: false
 
 terminals:
-  enabled: false
+  enabled: true
+
+  crd:
+    install: true
+
+  operator:
+    image:
+      repository: ghcr.io/open-webui/terminals-operator
+      tag: git-1891c79
+
+  orchestrator:
+    replicaCount: 1
+
+    image:
+      repository: ghcr.io/open-webui/terminals
+      tag: git-1891c79
+
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+    backend: kubernetes-operator
+    terminalImage: ghcr.io/open-webui/open-terminal:sha-98bd1a5
+    idleTimeoutMinutes: 30
+
+  terminalDefaults:
+    persistence:
+      enabled: true
+      size: 1Gi
+      storageClass: longhorn
 
 workload:
   kind: Deployment
