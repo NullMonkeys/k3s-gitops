@@ -124,7 +124,7 @@ extraEnvVars:
   - name: SEARXNG_LANGUAGE
     value: "all"
   - name: WEB_LOADER_ENGINE
-    value: "safe_web"
+    value: "playwright"
 
   - name: CONTENT_EXTRACTION_ENGINE
     value: "mistral_ocr"
