@@ -16,6 +16,8 @@ pipelines:
 terminals:
   enabled: true
 
+  existingSecret: "open-webui-secrets"
+
   crd:
     install: true
 
