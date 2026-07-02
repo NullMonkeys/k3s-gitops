@@ -1,7 +1,4 @@
 ---
-image:
-  tag: "v0.10.2"
-
 replicaCount: 1
 
 ollama:
