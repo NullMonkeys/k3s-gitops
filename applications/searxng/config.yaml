@@ -8,14 +8,7 @@ metadata:
 
 data:
   settings.yml: |
-    use_default_settings:
-      engines:
-        keep_only:
-          - duckduckgo
-          - google
-          - qwant
-          - wikipedia
-          - wikidata
+    use_default_settings: true
 
     general:
       debug: false
