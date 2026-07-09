@@ -22,7 +22,7 @@ spec:
       enableServiceLinks: false
       containers:
         - name: searxng
-          image: ghcr.io/searxng/searxng:2026.7.2-67973783d
+          image: ghcr.io/searxng/searxng:2026.7.9-b512eaa27
           imagePullPolicy: IfNotPresent
 
           ports:
