@@ -25,6 +25,17 @@ global:
           name: authentik-db-app
           key: password
 
+    - name: AUTHENTIK_EMAIL__USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: authentik-secrets
+          key: smtp-username
+    - name: AUTHENTIK_EMAIL__PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: authentik-secrets
+          key: smtp-password
+
   volumes:
     - name: authentik-data
       persistentVolumeClaim:
@@ -41,6 +52,12 @@ authentik:
     host: "authentik-db-rw"
     name: "authentik"
     user: "authentik"
+
+  email:
+    host: "smtp.resend.com"
+    port: 587
+    use_tls: true
+    from: "auth@nullmonkeys.com"
 
 postgresql:
   enabled: false
