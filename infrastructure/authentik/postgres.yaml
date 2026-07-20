@@ -17,7 +17,7 @@ spec:
     topologyKey: kubernetes.io/hostname
 
   storage:
-    size: 2Gi
+    size: 5Gi
     storageClass: longhorn
 
   bootstrap:
@@ -30,15 +30,15 @@ spec:
   # externalClusters:
   #   - name: authentik-db
   #     barmanObjectStore:
-  #       destinationPath: s3://authentik-backups/
+  #       destinationPath: s3://authentik-backups
   #       endpointURL: https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com
   #       s3Credentials:
   #         accessKeyId:
   #           name: authentik-secrets
-  #           key: s3-access-key-id
+  #           key: cloudflare-r2-access-key
   #         secretAccessKey:
   #           name: authentik-secrets
-  #           key: s3-secret-access-key
+  #           key: cloudflare-r2-secret-key
   #       wal:
   #         compression: gzip
   #         maxParallel: 8
@@ -47,16 +47,16 @@ spec:
     retentionPolicy: "3d"
 
     barmanObjectStore:
-      destinationPath: s3://authentik-backups/
+      destinationPath: s3://authentik-backups
       endpointURL: https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com
 
       s3Credentials:
         accessKeyId:
           name: authentik-secrets
-          key: s3-access-key-id
+          key: cloudflare-r2-access-key
         secretAccessKey:
           name: authentik-secrets
-          key: s3-secret-access-key
+          key: cloudflare-r2-secret-key
 
       wal:
         compression: gzip

@@ -7,7 +7,6 @@ namespace: authentik
 resources:
   - secrets.yaml
   - postgres.yaml
-  - pvc.yaml
 
 helmCharts:
   - name: authentik

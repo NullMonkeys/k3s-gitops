@@ -25,6 +25,25 @@ global:
           name: authentik-db-app
           key: password
 
+    - name: AUTHENTIK_STORAGE__BACKEND
+      value: "s3"
+    - name: AUTHENTIK_STORAGE__S3__ENDPOINT
+      value: "https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com"
+    - name: AUTHENTIK_STORAGE__S3__CUSTOM_DOMAIN
+      value: "authentik-media.nullmonkeys.com"
+    - name: AUTHENTIK_STORAGE__S3__BUCKET_NAME
+      value: "authentik-media"
+    - name: AUTHENTIK_STORAGE__S3__ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: authentik-secrets
+          key: cloudflare-r2-access-key
+    - name: AUTHENTIK_STORAGE__S3__SECRET_KEY
+      valueFrom:
+        secretKeyRef:
+          name: authentik-secrets
+          key: cloudflare-r2-secret-key
+
     - name: AUTHENTIK_EMAIL__USERNAME
       valueFrom:
         secretKeyRef:
@@ -35,15 +54,6 @@ global:
         secretKeyRef:
           name: authentik-secrets
           key: smtp-password
-
-  volumes:
-    - name: authentik-data
-      persistentVolumeClaim:
-        claimName: authentik-data
-
-  volumeMounts:
-    - name: authentik-data
-      mountPath: /data
 
 authentik:
   enabled: true
