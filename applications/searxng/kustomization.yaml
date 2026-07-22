@@ -15,7 +15,7 @@ resources:
 helmCharts:
   - name: valkey
     repo: oci://registry-1.docker.io/bitnamicharts
-    version: 6.2.0
+    version: 6.2.2
     releaseName: valkey
     namespace: searxng
     valuesFile: valkey-values.yaml
