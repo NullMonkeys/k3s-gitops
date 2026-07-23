@@ -1,0 +1,96 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+
+metadata:
+  name: lobehub-db
+  namespace: lobehub
+
+spec:
+  instances: 1
+
+  postgresUID: 999
+  postgresGID: 999
+
+  imageCatalogRef:
+    apiGroup: postgresql.cnpg.io
+    kind: ClusterImageCatalog
+    name: paradedb-catalog
+    major: 18
+
+  monitoring:
+    enablePodMonitor: true
+
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+
+  storage:
+    size: 5Gi
+    storageClass: longhorn
+
+
+  postgresql:
+    shared_preload_libraries:
+      - "pg_search"
+
+  bootstrap:
+    initdb:
+      database: lobehub
+      owner: lobehub
+      postInitApplicationSQL:
+        - CREATE EXTENSION IF NOT EXISTS vector;
+        - CREATE EXTENSION IF NOT EXISTS pg_search;
+    # recovery:
+    #   source: lobehub-db
+    #   database: lobehub
+    #   owner: lobehub
+
+  # externalClusters:
+  #   - name: lobehub-db
+  #     barmanObjectStore:
+  #       destinationPath: s3://lobehub-backups
+  #       endpointURL: https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com
+  #       s3Credentials:
+  #         accessKeyId:
+  #           name: lobehub-secrets
+  #           key: cloudflare-r2-access-key
+  #         secretAccessKey:
+  #           name: lobehub-secrets
+  #           key: cloudflare-r2-secret-key
+  #       wal:
+  #         compression: gzip
+  #         maxParallel: 8
+
+  backup:
+    retentionPolicy: "3d"
+
+    barmanObjectStore:
+      destinationPath: s3://lobehub-backups
+      endpointURL: https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com
+
+      s3Credentials:
+        accessKeyId:
+          name: lobehub-secrets
+          key: cloudflare-r2-access-key
+        secretAccessKey:
+          name: lobehub-secrets
+          key: cloudflare-r2-secret-key
+
+      wal:
+        compression: gzip
+        maxParallel: 8
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+
+metadata:
+  name: lobehub-db-daily-backup
+  namespace: lobehub
+
+spec:
+  schedule: "0 0 2 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: lobehub-db

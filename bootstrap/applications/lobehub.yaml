@@ -1,0 +1,30 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: lobehub
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+
+spec:
+  project: applications
+
+  source:
+    repoURL: "https://github.com/NullMonkeys/k3s-gitops.git"
+    targetRevision: HEAD
+    path: applications/lobehub
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: lobehub
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
