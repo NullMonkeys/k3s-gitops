@@ -4,6 +4,7 @@ kind: Deployment
 
 metadata:
   name: lobehub
+  namespace: lobehub
   labels:
     app: lobehub
 
