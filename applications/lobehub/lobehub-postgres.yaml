@@ -8,6 +8,7 @@ metadata:
 
 spec:
   instances: 1
+  imageName: paradedb/paradedb:latest-pg17
 
   monitoring:
     enablePodMonitor: true
@@ -20,12 +21,18 @@ spec:
     size: 5Gi
     storageClass: longhorn
 
+
+  postgresql:
+    shared_preload_libraries:
+      - "pg_search"
+
   bootstrap:
     initdb:
       database: lobehub
       owner: lobehub
       postInitApplicationSQL:
         - CREATE EXTENSION IF NOT EXISTS vector;
+        - CREATE EXTENSION IF NOT EXISTS pg_search;
     # recovery:
     #   source: lobehub-db
     #   database: lobehub
