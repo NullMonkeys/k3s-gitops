@@ -1,0 +1,11 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ClusterImageCatalog
+
+metadata:
+  name: paradedb-catalog
+
+spec:
+  images:
+    - major: 18
+      image: paradedb/paradedb:latest-pg18
