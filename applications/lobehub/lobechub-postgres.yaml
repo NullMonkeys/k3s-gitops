@@ -1,0 +1,79 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+
+metadata:
+  name: lobehub-db
+  namespace: lobehub
+
+spec:
+  instances: 1
+
+  monitoring:
+    enablePodMonitor: true
+
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+
+  storage:
+    size: 5Gi
+    storageClass: longhorn
+
+  bootstrap:
+    initdb:
+      database: lobehub
+      owner: lobehub
+    # recovery:
+    #   source: lobehub-db
+    #   database: lobehub
+    #   owner: lobehub
+
+  # externalClusters:
+  #   - name: lobehub-db
+  #     barmanObjectStore:
+  #       destinationPath: s3://lobehub-backups
+  #       endpointURL: https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com
+  #       s3Credentials:
+  #         accessKeyId:
+  #           name: lobehub-secrets
+  #           key: cloudflare-r2-access-key
+  #         secretAccessKey:
+  #           name: lobehub-secrets
+  #           key: cloudflare-r2-secret-key
+  #       wal:
+  #         compression: gzip
+  #         maxParallel: 8
+
+  backup:
+    retentionPolicy: "3d"
+
+    barmanObjectStore:
+      destinationPath: s3://lobehub-backups
+      endpointURL: https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com
+
+      s3Credentials:
+        accessKeyId:
+          name: lobehub-secrets
+          key: cloudflare-r2-access-key
+        secretAccessKey:
+          name: lobehub-secrets
+          key: cloudflare-r2-secret-key
+
+      wal:
+        compression: gzip
+        maxParallel: 8
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+
+metadata:
+  name: lobehub-db-daily-backup
+  namespace: lobehub
+
+spec:
+  schedule: "0 0 2 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: lobehub-db

@@ -1,0 +1,87 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: lobehub
+  labels:
+    app: lobehub
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: lobehub
+
+  template:
+    metadata:
+      labels:
+        app: lobehub
+
+    spec:
+      containers:
+        - name: lobehub
+          image: lobehub/lobehub:2.2.10
+
+          ports:
+            - containerPort: 3210
+
+          envFrom:
+            - secretRef:
+                name: lobehub-secrets
+
+          env:
+            - name: APP_URL
+              value: "https://chat.nullmonkeys.com"
+            - name: INTERNAL_APP_URL
+              value: "http://localhost:3210"
+            - name: AUTH_DISABLE_EMAIL_PASSWORD
+              value: "1"
+            - name: AUTH_SSO_PROVIDERS
+              value: "authentik"
+
+            - name: REDIS_URL
+              value: "redis://redis-master:6379"
+            - name: REDIS_TLS
+              value: "0"
+
+            - name: S3_ENDPOINT
+              value: "https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com"
+            - name: S3_BUCKET
+              value: "lobehub"
+            - name: S3_ENABLE_PATH_STYLE
+              value: "1"
+            - name: S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-secrets
+                  key: cloudflare-r2-access-key
+            - name: S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-secrets
+                  key: cloudflare-r2-secret-key
+
+            - name: SEARCH_PROVIDERS
+              value: "searxng"
+            - name: SEARXNG_URL
+              value: "http://searxng.searxng.svc.cluster.local"
+
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "2"
+              memory: 2Gi
+
+          readinessProbe:
+            httpGet: { path: /, port: 3210 }
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet: { path: /, port: 3210 }
+            initialDelaySeconds: 30
+            periodSeconds: 30

@@ -1,0 +1,29 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: lobehub
+  namespace: lobehub
+  annotations:
+    cert-manager.io/cluster-issuer: infisical-acme
+
+spec:
+  ingressClassName: traefik
+
+  tls:
+    - hosts:
+        - chat.nullmonkeys.com
+      secretName: lobehub-tls
+
+  rules:
+    - host: chat.nullmonkeys.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: lobehub
+                port:
+                  number: 3210
