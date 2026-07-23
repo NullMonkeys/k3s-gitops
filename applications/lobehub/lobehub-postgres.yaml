@@ -24,6 +24,8 @@ spec:
     initdb:
       database: lobehub
       owner: lobehub
+      postInitApplicationSQL:
+        - CREATE EXTENSION IF NOT EXISTS vector;
     # recovery:
     #   source: lobehub-db
     #   database: lobehub
