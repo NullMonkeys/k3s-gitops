@@ -8,7 +8,7 @@ metadata:
 
 spec:
   instances: 1
-  imageName: paradedb/paradedb:latest-pg17
+  imageName: paradedb/paradedb:latest-pg18
 
   monitoring:
     enablePodMonitor: true
