@@ -46,6 +46,12 @@ spec:
             - name: REDIS_TLS
               value: "0"
 
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-db-app
+                  key: uri
+
             - name: S3_ENDPOINT
               value: "https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com"
             - name: S3_BUCKET
