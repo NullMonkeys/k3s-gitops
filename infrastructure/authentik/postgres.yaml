@@ -21,46 +21,46 @@ spec:
     storageClass: longhorn
 
   bootstrap:
-    initdb:
-      database: authentik
-      owner: authentik
-    # recovery:
-    #   source: authentik-db
+    # initdb:
+    #   database: authentik
+    #   owner: authentik
+    recovery:
+      source: authentik-db
 
-  # externalClusters:
-  #   - name: authentik-db
-  #     barmanObjectStore:
-  #       destinationPath: s3://authentik-backups
-  #       endpointURL: https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com
-  #       s3Credentials:
-  #         accessKeyId:
-  #           name: authentik-secrets
-  #           key: cloudflare-r2-access-key
-  #         secretAccessKey:
-  #           name: authentik-secrets
-  #           key: cloudflare-r2-secret-key
-  #       wal:
-  #         compression: gzip
-  #         maxParallel: 8
+  externalClusters:
+    - name: authentik-db
+      barmanObjectStore:
+        destinationPath: s3://authentik-backups
+        endpointURL: https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com
+        s3Credentials:
+          accessKeyId:
+            name: authentik-secrets
+            key: cloudflare-r2-access-key
+          secretAccessKey:
+            name: authentik-secrets
+            key: cloudflare-r2-secret-key
+        wal:
+          compression: gzip
+          maxParallel: 8
 
-  backup:
-    retentionPolicy: "3d"
+  # backup:
+  #   retentionPolicy: "3d"
 
-    barmanObjectStore:
-      destinationPath: s3://authentik-backups
-      endpointURL: https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com
+  #   barmanObjectStore:
+  #     destinationPath: s3://authentik-backups
+  #     endpointURL: https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com
 
-      s3Credentials:
-        accessKeyId:
-          name: authentik-secrets
-          key: cloudflare-r2-access-key
-        secretAccessKey:
-          name: authentik-secrets
-          key: cloudflare-r2-secret-key
+  #     s3Credentials:
+  #       accessKeyId:
+  #         name: authentik-secrets
+  #         key: cloudflare-r2-access-key
+  #       secretAccessKey:
+  #         name: authentik-secrets
+  #         key: cloudflare-r2-secret-key
 
-      wal:
-        compression: gzip
-        maxParallel: 8
+  #     wal:
+  #       compression: gzip
+  #       maxParallel: 8
 
 ---
 apiVersion: postgresql.cnpg.io/v1
