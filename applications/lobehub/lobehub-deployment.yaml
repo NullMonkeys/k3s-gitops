@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: lobehub
-          image: lobehub/lobehub:2.2.10
+          image: lobehub/lobehub:2.2.11
 
           ports:
             - containerPort: 3210
@@ -74,6 +74,9 @@ spec:
               value: "searxng"
             - name: SEARXNG_URL
               value: "http://searxng.searxng.svc.cluster.local"
+
+            - name: FEATURE_FLAGS
+              value: "-welcome_suggest,+api_key_manage"
 
           resources:
             requests:
