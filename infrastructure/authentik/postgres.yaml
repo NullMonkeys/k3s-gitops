@@ -26,6 +26,8 @@ spec:
     #   owner: authentik
     recovery:
       source: authentik-db
+      database: authentik
+      owner: authentik
 
   externalClusters:
     - name: authentik-db
