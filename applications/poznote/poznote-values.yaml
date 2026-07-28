@@ -1,4 +1,7 @@
 ---
+image:
+  tag: "6.43.0"
+
 secrets:
   existingSecret: poznote-secrets
   oidcClientIdKey: oidc-client-id
