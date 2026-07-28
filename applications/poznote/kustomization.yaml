@@ -1,0 +1,17 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: poznote
+
+resources:
+  - poznote-secrets.yaml
+  - poznote-pvc.yaml
+
+helmCharts:
+  - name: poznote
+    repo: https://repo.helmforge.dev
+    version: 1.0.4
+    releaseName: poznote
+    namespace: poznote
+    valuesFile: poznote-values.yaml
