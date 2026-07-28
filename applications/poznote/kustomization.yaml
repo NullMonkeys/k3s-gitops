@@ -6,6 +6,7 @@ namespace: poznote
 
 resources:
   - poznote-secrets.yaml
+  - poznote-pvc.yaml
 
 helmCharts:
   - name: poznote

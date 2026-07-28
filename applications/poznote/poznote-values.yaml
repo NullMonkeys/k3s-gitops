@@ -11,10 +11,7 @@ poznote:
 persistence:
   data:
     enabled: true
-    size: 5Gi
-    storageClass: longhorn
-    accessModes:
-      - ReadWriteOnce
+    existingClaim: poznote-data
 
 ingress:
   enabled: true
