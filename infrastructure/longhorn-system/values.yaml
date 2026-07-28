@@ -3,12 +3,23 @@ defaultSettings:
   defaultDataPath: /var/lib/longhorn
   storageReservedPercentageForDefaultDisk: 5
   storageMinimalAvailablePercentage: 5
-  defaultReplicaCount: 1
-  replicaAutoBalance: disabled
-  dataLocality: best-effort
 
-preUpgradeChecker:
-  jobEnabled: false
+defaultBackupStore:
+  backupTarget: "s3://longhorn-backups@auto/"
+  backupTargetCredentialSecret: longhorn-system-secrets
 
 persistence:
   defaultClassReplicaCount: 1
+
+metrics:
+  serviceMonitor:
+    enabled: true
+
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  host: longhorn.internal.nullmonkeys.com
+  tls: true
+  tlsSecret: longhorn-tls
+  annotations:
+    cert-manager.io/cluster-issuer: infisical-acme
