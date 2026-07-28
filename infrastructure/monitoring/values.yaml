@@ -50,6 +50,10 @@ grafana:
         gnetId: 20417
         revision: 4
         datasource: Prometheus
+      authentik:
+        gnetId: 23043
+        revision: 1
+        datasource: Prometheus
 
   persistence:
     enabled: true
