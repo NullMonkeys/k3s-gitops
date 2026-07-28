@@ -75,6 +75,10 @@ postgresql:
 server:
   enabled: true
   replicas: 2
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
 
   resources:
     requests:
@@ -102,6 +106,10 @@ server:
 worker:
   enabled: true
   replicas: 2
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
 
   resources:
     requests:
