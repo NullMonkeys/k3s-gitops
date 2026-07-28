@@ -1,0 +1,37 @@
+---
+secrets:
+  existingSecret: poznote-secrets
+  oidcClientIdKey: oidc-client-id
+  oidcClientSecretKey: oidc-client-secret
+
+poznote:
+  oidc:
+    disableNormalLogin: true
+
+persistence:
+  data:
+    enabled: true
+    size: 5Gi
+    storageClass: longhorn
+    accessModes:
+      - ReadWriteOnce
+
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: infisical-acme
+  hosts:
+    - host: notes.nullmonkeys.com
+  tls:
+    - secretName: poznote-tls
+      hosts:
+        - notes.nullmonkeys.com
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
