@@ -5,12 +5,12 @@ kind: Kustomization
 namespace: searxng
 
 resources:
-  - secrets.yaml
-  - config.yaml
-  - limiter.yaml
-  - service.yaml
-  - ingress.yaml
-  - deployment.yaml
+  - searxng-secrets.yaml
+  - searxng-config.yaml
+  - searxng-limiter.yaml
+  - searxng-svc.yaml
+  - searxng-ingress.yaml
+  - searxng-deployment.yaml
 
 helmCharts:
   - name: valkey
