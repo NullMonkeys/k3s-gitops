@@ -1,6 +1,6 @@
 ---
 image:
-  tag: "6.43.0"
+  tag: "6.44.2"
 
 secrets:
   existingSecret: poznote-secrets
