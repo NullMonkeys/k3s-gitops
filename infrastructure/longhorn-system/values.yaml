@@ -9,7 +9,7 @@ defaultBackupStore:
   backupTargetCredentialSecret: longhorn-system-secrets
 
 persistence:
-  defaultClassReplicaCount: 1
+  defaultClassReplicaCount: 2
 
 metrics:
   serviceMonitor:
