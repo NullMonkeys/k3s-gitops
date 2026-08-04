@@ -1,0 +1,30 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+
+metadata:
+  name: authentik-db
+  namespace: authentik
+
+spec:
+  bootstrap:
+    recovery:
+      source: authentik-db
+      database: authentik
+      owner: authentik
+
+  externalClusters:
+    - name: authentik-db
+      barmanObjectStore:
+        destinationPath: s3://authentik-backups
+        endpointURL: https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com
+        s3Credentials:
+          accessKeyId:
+            name: authentik-secrets
+            key: cloudflare-r2-access-key
+          secretAccessKey:
+            name: authentik-secrets
+            key: cloudflare-r2-secret-key
+        wal:
+          compression: gzip
+          maxParallel: 8
