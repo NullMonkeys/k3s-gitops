@@ -39,7 +39,7 @@ spec:
             - name: APP_URL
               value: "https://pelican.nullmonkeys.com"
             - name: APP_DEBUG
-              value: "false"
+              value: "true"
 
             - name: BEHIND_PROXY
               value: "true"
