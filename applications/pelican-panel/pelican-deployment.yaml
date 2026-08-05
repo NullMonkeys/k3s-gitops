@@ -1,0 +1,110 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: pelican-panel
+  namespace: pelican-panel
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: pelican-panel
+
+  template:
+    metadata:
+      labels:
+        app: pelican-panel
+
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: pelican-panel
+          image: ghcr.io/pelican-dev/panel:v1.0.0-beta36
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 80
+              name: http
+            - containerPort: 9000
+              name: fpm
+
+          envFrom:
+            - secretRef:
+                name: pelican-panel-secrets
+
+          env:
+            - name: APP_URL
+              value: "https://pelican.nullmonkeys.com"
+            - name: APP_DEBUG
+              value: "false"
+            - name: APP_INSTALLED
+              value: "true"
+
+            - name: BEHIND_PROXY
+              value: "true"
+            - name: TRUSTED_PROXIES
+              value: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+
+            - name: MAIL_DRIVER
+              value: "log"
+            - name: XDG_DATA_HOME
+              value: "/pelican-data"
+
+            - name: CACHE_STORE
+              value: "redis"
+            - name: SESSION_DRIVER
+              value: "redis"
+            - name: QUEUE_CONNECTION
+              value: "redis"
+            - name: REDIS_HOST
+              value: "redis-master"
+
+            - name: DB_CONNECTION
+              value: "pgsql"
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: pelican-panel-db-app
+                  key: host
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: pelican-panel-db-app
+                  key: port
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: pelican-panel-db-app
+                  key: dbname
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: pelican-panel-db-app
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pelican-panel-db-app
+                  key: password
+
+          volumeMounts:
+            - name: pelican-panel-data
+              mountPath: /pelican-data
+            - name: pelican-panel-logs
+              mountPath: /var/www/html/storage/logs
+            - name: pelican-panel-plugins
+              mountPath: /var/www/html/plugins
+
+      volumes:
+        - name: pelican-panel-data
+          persistentVolumeClaim:
+            claimName: pelican-panel-data-pvc
+        - name: pelican-panel-logs
+          persistentVolumeClaim:
+            claimName: pelican-panel-logs-pvc
+        - name: pelican-panel-plugins
+          persistentVolumeClaim:
+            claimName: pelican-panel-plugins-pvc

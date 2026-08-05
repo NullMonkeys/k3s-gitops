@@ -1,0 +1,12 @@
+---
+architecture: standalone
+
+auth:
+  enabled: false
+  sentinel: false
+
+master:
+  persistence:
+    enabled: true
+    storageClass: longhorn
+    size: 512Mi
