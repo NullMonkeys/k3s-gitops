@@ -1,0 +1,13 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+
+metadata:
+  name: pelican-panel-db
+  namespace: pelican-panel
+
+spec:
+  bootstrap:
+    initdb:
+      database: pelican-panel
+      owner: pelican-panel

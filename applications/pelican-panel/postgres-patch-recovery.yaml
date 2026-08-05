@@ -1,0 +1,32 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+
+metadata:
+  name: pelican-panel-db
+  namespace: pelican-panel
+
+spec:
+  bootstrap:
+    recovery:
+      source: pelican-panel-db
+      database: pelican-panel
+      owner: pelican-panel
+
+  externalClusters:
+    - name: pelican-panel-db
+      barmanObjectStore:
+        destinationPath: s3://pelican-panel-backups
+        endpointURL: https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com
+
+        s3Credentials:
+          accessKeyId:
+            name: pelican-panel-secrets
+            key: cloudflare-r2-access-key
+          secretAccessKey:
+            name: pelican-panel-secrets
+            key: cloudflare-r2-secret-key
+
+        wal:
+          compression: gzip
+          maxParallel: 8

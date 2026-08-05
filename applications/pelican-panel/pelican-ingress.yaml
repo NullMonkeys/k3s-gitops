@@ -1,0 +1,26 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pelican-panel-ingress
+  namespace: pelican-panel
+  annotations:
+    cert-manager.io/cluster-issuer: infisical-acme
+
+spec:
+  tls:
+    - secretName: pelican-panel-tls-secret
+      hosts:
+        - pelican.nullmonkeys.com
+
+  rules:
+    - host: pelican.nullmonkeys.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pelican-panel-svc
+                port:
+                  number: 80
