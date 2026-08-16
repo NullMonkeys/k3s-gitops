@@ -11,7 +11,7 @@ resources:
 helmCharts:
   - name: poznote
     repo: https://repo.helmforge.dev
-    version: 1.1.2
+    version: 1.1.3
     releaseName: poznote
     namespace: poznote
     valuesFile: poznote-values.yaml
