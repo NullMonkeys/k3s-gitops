@@ -22,7 +22,7 @@ spec:
       enableServiceLinks: false
       containers:
         - name: pelican-panel
-          image: ghcr.io/pelican-dev/panel:v1.0.0-beta36
+          image: ghcr.io/pelican-dev/panel:v1.0.0-beta37
           imagePullPolicy: IfNotPresent
 
           ports:
