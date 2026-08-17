@@ -3,6 +3,7 @@ defaultSettings:
   defaultDataPath: /var/lib/longhorn
   storageReservedPercentageForDefaultDisk: 5
   storageMinimalAvailablePercentage: 5
+  concurrentAutomaticEngineUpgradePerNodeLimit: 2
 
 defaultBackupStore:
   backupTarget: "s3://longhorn-backups@auto/"
