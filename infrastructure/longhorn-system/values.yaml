@@ -4,6 +4,8 @@ defaultSettings:
   storageReservedPercentageForDefaultDisk: 5
   storageMinimalAvailablePercentage: 5
   concurrentAutomaticEngineUpgradePerNodeLimit: 2
+  nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
+  rwxVolumeFastFailover: true
 
 defaultBackupStore:
   backupTarget: "s3://longhorn-backups@auto/"
