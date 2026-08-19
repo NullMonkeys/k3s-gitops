@@ -7,6 +7,5 @@ auth:
 
 master:
   persistence:
-    enabled: true
-    storageClass: longhorn
-    size: 512Mi
+    enabled: false
+
