@@ -8,6 +8,9 @@ metadata:
 
 spec:
   valuesContent: |
+    deployment:
+      replicas: 2
+
     service:
       spec:
         externalTrafficPolicy: Local
