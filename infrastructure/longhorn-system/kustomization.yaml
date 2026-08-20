@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - secrets.yaml
   - nightly-backup.yaml
+  - networkpolicy-monitoring.yaml
 
 helmCharts:
   - name: longhorn
