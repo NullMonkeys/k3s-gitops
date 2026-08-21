@@ -28,11 +28,33 @@ spec:
             - --migrate
 
           env:
-            - name: ConnectionStrings__database
+            - name: DB_HOST
               valueFrom:
                 secretKeyRef:
                   name: test-task-todo-db-app
-                  key: uri
+                  key: host
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: test-task-todo-db-app
+                  key: port
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: test-task-todo-db-app
+                  key: dbname
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: test-task-todo-db-app
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: test-task-todo-db-app
+                  key: password
+            - name: ConnectionStrings__database
+              value: "Host=$(DB_HOST);Port=$(DB_PORT);Database=$(DB_NAME);Username=$(DB_USERNAME);Password=$(DB_PASSWORD)"
 
       containers:
         - name: test-task-todo
@@ -44,8 +66,30 @@ spec:
               name: http
 
           env:
-            - name: ConnectionStrings__database
+            - name: DB_HOST
               valueFrom:
                 secretKeyRef:
                   name: test-task-todo-db-app
-                  key: uri
+                  key: host
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: test-task-todo-db-app
+                  key: port
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: test-task-todo-db-app
+                  key: dbname
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: test-task-todo-db-app
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: test-task-todo-db-app
+                  key: password
+            - name: ConnectionStrings__database
+              value: "Host=$(DB_HOST);Port=$(DB_PORT);Database=$(DB_NAME);Username=$(DB_USERNAME);Password=$(DB_PASSWORD)"
