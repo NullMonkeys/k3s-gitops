@@ -1,0 +1,13 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+
+metadata:
+  name: test-task-todo-db
+  namespace: test-task-todo
+
+spec:
+  bootstrap:
+    initdb:
+      database: test-task-todo
+      owner: test-task-todo

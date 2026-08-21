@@ -1,0 +1,26 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-task-todo-ingress
+  namespace: test-task-todo
+  annotations:
+    cert-manager.io/cluster-issuer: infisical-acme
+
+spec:
+  tls:
+    - secretName: test-task-todo-tls-secret
+      hosts:
+        - test-task-todo.nullmonkeys.com
+
+  rules:
+    - host: test-todo.nullmonkeys.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: todo-svc
+                port:
+                  number: 8080

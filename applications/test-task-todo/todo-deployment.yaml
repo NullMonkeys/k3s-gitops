@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: test-task-todo
+  namespace: test-task-todo
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: test-task-todo
+
+  template:
+    metadata:
+      labels:
+        app: test-task-todo
+
+    spec:
+      enableServiceLinks: false
+      initContainers:
+        - name: migrate
+          image: ghcr.io/magicman517/test-task-todo:0.0.1
+          imagePullPolicy: IfNotPresent
+          args:
+            - --migrate
+
+          env:
+            - name: ConnectionStrings__database
+              valueFrom:
+                secretKeyRef:
+                  name: test-task-todo-db-app
+                  key: uri
+
+      containers:
+        - name: test-task-todo
+          image: ghcr.io/magicman517/test-task-todo:0.0.1
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 8080
+              name: http
+
+          env:
+            - name: ConnectionStrings__database
+              valueFrom:
+                secretKeyRef:
+                  name: test-task-todo-db-app
+                  key: uri
