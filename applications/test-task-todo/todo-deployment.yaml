@@ -54,7 +54,7 @@ spec:
                   name: test-task-todo-db-app
                   key: password
             - name: ConnectionStrings__database
-              value: "Host=$(DB_HOST);Port=$(DB_PORT);Database=$(DB_NAME);Username=$(DB_USERNAME);Password=$(DB_PASSWORD)"
+              value: "Host=$(DB_HOST);Port=$(DB_PORT);Database=$(DB_NAME);Username=$(DB_USERNAME);Password=$(DB_PASSWORD);GSS Encryption Mode=Disable"
 
       containers:
         - name: test-task-todo
@@ -92,4 +92,4 @@ spec:
                   name: test-task-todo-db-app
                   key: password
             - name: ConnectionStrings__database
-              value: "Host=$(DB_HOST);Port=$(DB_PORT);Database=$(DB_NAME);Username=$(DB_USERNAME);Password=$(DB_PASSWORD)"
+              value: "Host=$(DB_HOST);Port=$(DB_PORT);Database=$(DB_NAME);Username=$(DB_USERNAME);Password=$(DB_PASSWORD);GSS Encryption Mode=Disable"
