@@ -8,7 +8,7 @@ metadata:
 
 spec:
   selector:
-    app: todo
+    app: test-task-todo
 
   ports:
     - name: http
