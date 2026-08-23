@@ -22,7 +22,7 @@ spec:
       enableServiceLinks: false
       initContainers:
         - name: migrate
-          image: ghcr.io/magicman517/test-task-todo:0.0.1
+          image: ghcr.io/magicman517/test-task-todo:0.0.2
           imagePullPolicy: IfNotPresent
           args:
             - --migrate
@@ -58,7 +58,7 @@ spec:
 
       containers:
         - name: test-task-todo
-          image: ghcr.io/magicman517/test-task-todo:0.0.1
+          image: ghcr.io/magicman517/test-task-todo:0.0.2
           imagePullPolicy: IfNotPresent
 
           ports:
