@@ -1,0 +1,9 @@
+---
+githubConfigUrl: "https://github.com/NullMonkeys"
+githubConfigSecret: nullmonkeys-arc-runner-set-secrets
+
+minRunners: 0
+maxRunners: 2
+
+containerMode:
+  type: "dind"

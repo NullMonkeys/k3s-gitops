@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: nullmonkeys-arc-runner-set
+
+resources:
+  - nullmonkeys-arc-runner-set-secrets.yaml
+
+helmCharts:
+  - name: gha-runner-scale-set
+    repo: oci://ghcr.io/actions/actions-runner-controller-charts
+    version: 0.14.2
+    releaseName: nullmonkeys-arc
+    namespace: nullmonkeys-arc-runner-set
+    valuesFile: arc-runner-set-values.yaml
