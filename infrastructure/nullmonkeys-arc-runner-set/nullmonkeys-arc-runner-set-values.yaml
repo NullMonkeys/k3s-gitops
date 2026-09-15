@@ -7,3 +7,7 @@ maxRunners: 2
 
 containerMode:
   type: "dind"
+
+controllerServiceAccount:
+  namespace: arc-systems
+  name: arc-systems-gha-rs-controller

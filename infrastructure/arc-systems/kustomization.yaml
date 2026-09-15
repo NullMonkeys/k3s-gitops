@@ -11,3 +11,4 @@ helmCharts:
     releaseName: arc-systems
     namespace: arc-systems
     valuesFile: arc-systems-values.yaml
+    includeCRDs: true
