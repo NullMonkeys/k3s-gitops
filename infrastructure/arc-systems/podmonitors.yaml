@@ -18,6 +18,7 @@ spec:
       interval: 30s
       relabelings:
         - sourceLabels: [__address__]
+          action: replace
           targetLabel: job
           replacement: arc-controller
 
@@ -41,8 +42,10 @@ spec:
       interval: 30s
       relabelings:
         - sourceLabels: [__address__]
+          action: replace
           targetLabel: job
           replacement: arc-listeners
         - sourceLabels: [name]
+          action: replace
           targetLabel: runner_scale_set_name
           replacement: $1
