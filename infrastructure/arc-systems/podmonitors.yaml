@@ -16,6 +16,10 @@ spec:
     - port: metrics
       path: /metrics
       interval: 30s
+      relabelings:
+        - sourceLabels: [__address__]
+          targetLabel: job
+          replacement: arc-controller
 
 ---
 apiVersion: monitoring.coreos.com/v1
@@ -35,3 +39,10 @@ spec:
     - targetPort: 8080
       path: /metrics
       interval: 30s
+      relabelings:
+        - sourceLabels: [__address__]
+          targetLabel: job
+          replacement: arc-listeners
+        - sourceLabels: [name]
+          targetLabel: runner_scale_set_name
+          replacement: $1
