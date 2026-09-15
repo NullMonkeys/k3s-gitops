@@ -13,4 +13,4 @@ helmCharts:
     version: 0.14.2
     releaseName: nullmonkeys-arc
     namespace: nullmonkeys-arc-runner-set
-    valuesFile: arc-runner-set-values.yaml
+    valuesFile: nullmonkeys-arc-runner-set-values.yaml
