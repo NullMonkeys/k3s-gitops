@@ -39,3 +39,46 @@ spec:
   resources:
     requests:
       storage: 1Gi
+
+---
+# RWO replacements (migration away from RWX/share-manager; single replica).
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pelican-panel-data-rwo
+  namespace: pelican-panel
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pelican-panel-logs-rwo
+  namespace: pelican-panel
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 2Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pelican-panel-plugins-rwo
+  namespace: pelican-panel
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1Gi
