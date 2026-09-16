@@ -101,10 +101,10 @@ spec:
       volumes:
         - name: pelican-panel-data
           persistentVolumeClaim:
-            claimName: pelican-panel-data-pvc
+            claimName: pelican-panel-data-rwo
         - name: pelican-panel-logs
           persistentVolumeClaim:
-            claimName: pelican-panel-logs-pvc
+            claimName: pelican-panel-logs-rwo
         - name: pelican-panel-plugins
           persistentVolumeClaim:
-            claimName: pelican-panel-plugins-pvc
+            claimName: pelican-panel-plugins-rwo
