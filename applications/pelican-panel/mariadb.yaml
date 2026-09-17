@@ -1,0 +1,40 @@
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: MariaDB
+
+metadata:
+  name: pelican-mariadb
+  namespace: pelican-panel
+
+spec:
+  rootPasswordSecretKeyRef:
+    name: pelican-panel-secrets
+    key: mariadb-root-password
+
+  storage:
+    size: 5Gi
+    storageClassName: longhorn
+
+  replicas: 1
+
+  service:
+    type: LoadBalancer
+
+  primaryService:
+    type: LoadBalancer
+
+  metrics:
+    enabled: true
+
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      memory: 2Gi
+
+  affinity:
+    antiAffinityEnabled: true
+
+  # tls:
+  #   enabled: true

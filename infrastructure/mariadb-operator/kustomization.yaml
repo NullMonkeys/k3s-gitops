@@ -10,6 +10,7 @@ helmCharts:
     version: 26.6.0
     releaseName: mariadb-operator
     namespace: mariadb-operator
+    valuesFile: values.yaml
 
   - name: mariadb-operator-crds
     repo: https://mariadb-operator.github.io/mariadb-operator

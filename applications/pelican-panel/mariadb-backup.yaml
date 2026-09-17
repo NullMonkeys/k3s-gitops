@@ -1,0 +1,39 @@
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: PhysicalBackup
+
+metadata:
+  name: pelican-mariadb-daily
+  namespace: pelican-panel
+
+spec:
+  mariaDbRef:
+    name: pelican-mariadb
+
+  schedule:
+    cron: "0 2 * * *"
+
+  compression: gzip
+  maxRetention: 168h
+  timeout: 1h
+
+  storage:
+    s3:
+      bucket: pelican-panel-backups
+      prefix: mariadb
+      endpoint: 451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com
+      accessKeyIdSecretKeyRef:
+        name: pelican-panel-secrets
+        key: cloudflare-r2-access-key
+      secretAccessKeySecretKeyRef:
+        name: pelican-panel-secrets
+        key: cloudflare-r2-secret-key
+      tls:
+        enabled: true
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      memory: 512Mi

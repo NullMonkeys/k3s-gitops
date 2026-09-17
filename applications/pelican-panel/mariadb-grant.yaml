@@ -1,0 +1,22 @@
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+
+metadata:
+  name: pelican-admin
+  namespace: pelican-panel
+
+spec:
+  mariaDbRef:
+    name: pelican-mariadb
+
+  privileges:
+    - ALL PRIVILEGES
+  database: "*"
+  table: "*"
+  username: pelican-admin
+  host: "%"
+  grantOption: true
+  cleanupPolicy: Delete
+  requeueInterval: 10h
+  retryInterval: 30s

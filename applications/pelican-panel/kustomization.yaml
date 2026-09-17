@@ -12,6 +12,10 @@ resources:
   - pelican-svc.yaml
   - postgres-cluster.yaml
   - postgres-backup.yaml
+  - mariadb.yaml
+  - mariadb-user.yaml
+  - mariadb-grant.yaml
+  - mariadb-backup.yaml
 
 patches:
   - path: postgres-patch-init.yaml

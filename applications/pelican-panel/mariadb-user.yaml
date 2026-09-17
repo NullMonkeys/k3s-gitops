@@ -1,0 +1,21 @@
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: User
+
+metadata:
+  name: pelican-admin
+  namespace: pelican-panel
+
+spec:
+  mariaDbRef:
+    name: pelican-mariadb
+
+  passwordSecretKeyRef:
+    name: pelican-panel-secrets
+    key: mariadb-pelican-password
+
+  host: "%"
+  maxUserConnections: 20
+  cleanupPolicy: Delete
+  requeueInterval: 10h
+  retryInterval: 30s
