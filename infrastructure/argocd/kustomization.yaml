@@ -19,3 +19,5 @@ configMapGenerator:
     behavior: merge
     literals:
       - kustomize.buildOptions="--enable-helm"
+    files:
+      - resource.customizations.ignoreDifferences.all=argocd-ignore-mariadb.txt

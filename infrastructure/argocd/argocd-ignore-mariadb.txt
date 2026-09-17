@@ -1,0 +1,2 @@
+managedFieldsManagers:
+- mariadb-operator
