@@ -22,14 +22,13 @@ spec:
       enableServiceLinks: false
       containers:
         - name: adminer
-          image: adminer:6.0.1-standalone
+          image: adminer:6.0.1
           imagePullPolicy: IfNotPresent
 
           ports:
-            - containerPort: 8080
+            - containerPort: 80
               name: http
 
-          # Pre-fills the login form; user still types pelican-admin + password.
           env:
             - name: ADMINER_DEFAULT_SERVER
               value: pelican-mariadb-primary.pelican-panel.svc.cluster.local
