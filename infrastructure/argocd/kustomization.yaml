@@ -21,3 +21,4 @@ configMapGenerator:
       - kustomize.buildOptions="--enable-helm"
     files:
       - resource.customizations.ignoreDifferences.all=argocd-ignore-mariadb.txt
+      - resource.customizations.ignoreDifferences.k8s.mariadb.com_MariaDB=argocd-ignore-mariadb-mariadb.txt

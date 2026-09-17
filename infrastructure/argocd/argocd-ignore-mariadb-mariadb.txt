@@ -1,0 +1,7 @@
+jsonPointers:
+- /spec/port
+- /spec/suspend
+- /spec/replicasAllowEvenNumber
+- /spec/rootPasswordSecretKeyRef/generate
+managedFieldsManagers:
+- mariadb-operator
