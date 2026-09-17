@@ -1,0 +1,60 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: pelican-db-admin
+  namespace: pelican-panel
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: pelican-db-admin
+
+  template:
+    metadata:
+      labels:
+        app: pelican-db-admin
+
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: adminer
+          image: adminer:6.0.1-standalone
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 8080
+              name: http
+
+          # Pre-fills the login form; user still types pelican-admin + password.
+          env:
+            - name: ADMINER_DEFAULT_SERVER
+              value: pelican-mariadb-primary.pelican-panel.svc.cluster.local
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+            limits:
+              memory: 256Mi

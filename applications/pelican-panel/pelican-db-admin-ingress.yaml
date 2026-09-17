@@ -1,0 +1,29 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: pelican-db-admin
+  namespace: pelican-panel
+  annotations:
+    cert-manager.io/cluster-issuer: infisical-acme
+
+spec:
+  ingressClassName: traefik
+
+  tls:
+    - hosts:
+        - pelican-db.internal.nullmonkeys.com
+      secretName: pelican-db-admin-tls
+
+  rules:
+    - host: pelican-db.internal.nullmonkeys.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pelican-db-admin
+                port:
+                  number: 80

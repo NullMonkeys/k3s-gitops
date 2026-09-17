@@ -16,6 +16,9 @@ resources:
   - mariadb-user.yaml
   - mariadb-grant.yaml
   - mariadb-backup.yaml
+  - pelican-db-admin-deployment.yaml
+  - pelican-db-admin-svc.yaml
+  - pelican-db-admin-ingress.yaml
 
 patches:
   - path: postgres-patch-init.yaml
