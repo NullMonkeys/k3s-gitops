@@ -20,18 +20,22 @@ spec:
   service:
     type: LoadBalancer
 
-  primaryService:
-    type: LoadBalancer
-
   metrics:
     enabled: true
 
   resources:
     requests:
       cpu: 250m
-      memory: 512Mi
+      memory: 1Gi
     limits:
-      memory: 2Gi
+      memory: 4Gi
+
+  myCnf: |
+    [mariadb]
+    max_connections=500
+    max_connect_errors=10000
+    thread_cache_size=50
+    table_open_cache=2000
 
   affinity:
     antiAffinityEnabled: true

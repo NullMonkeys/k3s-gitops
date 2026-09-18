@@ -15,7 +15,7 @@ spec:
     key: mariadb-pelican-password
 
   host: "%"
-  maxUserConnections: 20
+  maxUserConnections: 500
   cleanupPolicy: Delete
   requeueInterval: 10h
   retryInterval: 30s
