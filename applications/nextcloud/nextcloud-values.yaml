@@ -141,6 +141,7 @@ collabora:
     extra_params: >-
       --o:ssl.enable=false
       --o:ssl.termination=true
+      --o:net.proto=IPv4
 
     server_name: office.nullmonkeys.com
 
@@ -181,6 +182,11 @@ cronjob:
   type: cronjob
 
   cronjob:
+    securityContext:
+      runAsUser: 33
+      runAsGroup: 33
+      runAsNonRoot: true
+
     affinity:
       podAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
