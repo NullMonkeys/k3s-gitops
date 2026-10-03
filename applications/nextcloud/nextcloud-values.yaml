@@ -8,7 +8,7 @@ ingress:
   enabled: true
   className: traefik
   annotations:
-    cert-manager.io/cluster-issuer: infisical-acme
+    cert-manager.io/cluster-issuer: letsencrypt
   tls:
     - secretName: nextcloud-tls
       hosts:
