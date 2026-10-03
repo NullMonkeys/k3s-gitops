@@ -116,7 +116,6 @@ nextcloud:
       ensure_app mail
 
       ensure_app collectives
-      ensure_app deck
       ensure_app tasks
       ensure_app tables
       ensure_app notes
