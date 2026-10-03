@@ -103,16 +103,35 @@ nextcloud:
         fi
       }
 
+      $OCC config:app:set \
+        --type=string \
+        --value=0 \
+        user_oidc allow_multiple_user_backends
+
       ensure_disabled spreed
 
       ensure_app user_oidc
+
       ensure_app calendar
+      ensure_app mail
+
       ensure_app collectives
       ensure_app deck
       ensure_app tasks
       ensure_app tables
       ensure_app notes
+
       ensure_app richdocuments
+      ensure_app groupfolders
+      ensure_app whiteboard
+
+      ensure_app integration_github
+
+      ensure_app assistant
+      ensure_app context_agent
+
+      ensure_app cookbook
+      ensure_app cospend
 
 persistence:
   enabled: true
