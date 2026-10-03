@@ -69,14 +69,26 @@ nextcloud:
       value: "10.42.0.0/16"
 
   hooks:
-    before-starting: |
+    post-upgrade: |
       #!/bin/bash
-      set -eu
 
       OCC="php /var/www/html/occ"
 
-      if ! $OCC status 2>/dev/null | grep -q "installed: true"; then
-        echo "Nextcloud is not installed yet; skipping app reconciliation."
+      echo "Updating Nextcloud apps after core upgrade..."
+      $OCC app:update --all || echo "WARNING: Some apps could not be updated"
+
+    before-starting: |
+      #!/bin/bash
+
+      OCC="php /var/www/html/occ"
+
+      set +e
+      $OCC status -e >/dev/null 2>&1
+      STATUS=$?
+      set -e
+
+      if [ "$STATUS" -ne 0 ]; then
+        echo "Nextcloud is not ready for app reconciliation; skipping."
         exit 0
       fi
 
@@ -85,12 +97,20 @@ nextcloud:
 
         if ! $OCC app:getpath "$app" >/dev/null 2>&1; then
           echo "Installing Nextcloud app: $app"
-          $OCC app:install "$app"
+
+          if ! $OCC app:install "$app"; then
+            echo "WARNING: Failed to install $app"
+            return 0
+          fi
         fi
 
         if ! $OCC app:list --enabled | grep -qE "^[[:space:]]*-[[:space:]]+${app}:"; then
           echo "Enabling Nextcloud app: $app"
-          $OCC app:enable "$app"
+
+          if ! $OCC app:enable "$app"; then
+            echo "WARNING: Failed to enable $app"
+            return 0
+          fi
         fi
       }
 
@@ -99,19 +119,14 @@ nextcloud:
 
         if $OCC app:list --enabled | grep -qE "^[[:space:]]*-[[:space:]]+${app}:"; then
           echo "Disabling Nextcloud app: $app"
-          $OCC app:disable "$app"
+          $OCC app:disable "$app" || true
         fi
       }
-
-      $OCC config:app:set \
-        --type=string \
-        --value=0 \
-        user_oidc allow_multiple_user_backends
 
       ensure_disabled spreed
 
       ensure_app user_oidc
-
+      ensure_app deck
       ensure_app calendar
       ensure_app mail
 
@@ -132,6 +147,11 @@ nextcloud:
       ensure_app cookbook
       ensure_app cospend
       ensure_app budget
+
+      $OCC config:app:set \
+        --type=string \
+        --value=0 \
+        user_oidc allow_multiple_user_backends || true
 
 persistence:
   enabled: true
