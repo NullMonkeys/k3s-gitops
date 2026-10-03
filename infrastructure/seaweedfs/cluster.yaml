@@ -1,0 +1,55 @@
+---
+apiVersion: seaweed.seaweedfs.com/v1
+kind: Seaweed
+
+metadata:
+  name: seaweedfs
+  namespace: seaweedfs
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+
+spec:
+  image: chrislusf/seaweedfs:4.48
+  volumeServerDiskCount: 1
+
+  master:
+    replicas: 1
+    volumeSizeLimitMB: 1024
+    metricsPort: 9324
+
+    persistence:
+      enabled: true
+      storageClassName: seaweedfs-longhorn
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+
+  volume:
+    replicas: 1
+    metricsPort: 9325
+    storageClassName: seaweedfs-longhorn
+    requests:
+      storage: 50Gi
+
+  filer:
+    replicas: 1
+    metricsPort: 9326
+    persistence:
+      enabled: true
+      storageClassName: seaweedfs-longhorn
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+
+    config: |
+      [leveldb2]
+      enabled = true
+      dir = "/data/filerldb2"
+
+  s3:
+    replicas: 1
+    metricsPort: 9327

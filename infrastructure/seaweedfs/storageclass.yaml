@@ -1,0 +1,18 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+
+provisioner: driver.longhorn.io
+metadata:
+  name: seaweedfs-longhorn
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+    argocd.argoproj.io/sync-options: Prune=confirm,Delete=confirm
+
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+
+parameters:
+  numberOfReplicas: "2"
+  dataLocality: "best-effort"

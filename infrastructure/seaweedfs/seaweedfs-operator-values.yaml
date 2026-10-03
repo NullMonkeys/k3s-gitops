@@ -1,0 +1,14 @@
+replicaCount: 1
+
+grafanaDashboard:
+  enabled: true
+
+serviceMonitor:
+  enabled: true
+  interval: 30s
+  scrapeTimeout: 10s
+
+webhook:
+  enabled: true
+  certManager:
+    enabled: true
