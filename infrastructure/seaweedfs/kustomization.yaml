@@ -1,0 +1,59 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: seaweedfs
+
+resources:
+  - storageclass.yaml
+  - secrets.yaml
+  - cluster.yaml
+  - networkpolicy.yaml
+  - preflight.yaml
+  - prometheusrule.yaml
+
+configMapGenerator:
+  - name: seaweedfs-preflight
+    files:
+      - preflight.py
+    options:
+      annotations:
+        argocd.argoproj.io/sync-wave: "-2"
+  - name: seaweedfs-dashboard
+    files:
+      - seaweedfs.json=dashboard.json
+    options:
+      labels:
+        grafana_dashboard: "1"
+      annotations:
+        argocd.argoproj.io/sync-wave: "-2"
+
+patches:
+  - target:
+      kind: Deployment
+      name: seaweedfs-operator
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/readinessProbe
+        value:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      - op: add
+        path: /spec/template/spec/containers/0/livenessProbe
+        value:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 10
+
+helmCharts:
+  - name: seaweedfs-operator
+    repo: https://seaweedfs.github.io/seaweedfs-operator
+    version: 0.1.43
+    releaseName: seaweedfs-operator
+    namespace: seaweedfs
+    valuesFile: seaweedfs-operator-values.yaml

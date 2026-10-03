@@ -1,0 +1,75 @@
+---
+apiVersion: seaweed.seaweedfs.com/v1
+kind: Seaweed
+metadata:
+  name: seaweedfs
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: Prune=confirm,Delete=confirm
+spec:
+  image: chrislusf/seaweedfs:4.48
+  volumeServerDiskCount: 1
+  enablePVReclaim: false
+  master:
+    replicas: 1
+    defaultReplication: "000"
+    volumeSizeLimitMB: 1024
+    volumePreallocate: false
+    metricsPort: 9324
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      memory: 512Mi
+    persistence:
+      enabled: true
+      storageClassName: seaweedfs-longhorn
+      mountPath: /data
+      resources:
+        requests:
+          storage: 1Gi
+  volume:
+    replicas: 1
+    storageClassName: seaweedfs-longhorn
+    maxVolumeCounts: 60
+    minFreeSpacePercent: 10
+    metricsPort: 9325
+    requests:
+      storage: 64Gi
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      memory: 2Gi
+  filer:
+    replicas: 1
+    metricsPort: 9326
+    extraArgs:
+      - -defaultReplicaPlacement=000
+    config: |
+      [leveldb2]
+      enabled = true
+      dir = "/data/filerldb2"
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 1Gi
+    persistence:
+      enabled: true
+      storageClassName: seaweedfs-longhorn
+      mountPath: /data
+      resources:
+        requests:
+          storage: 2Gi
+  s3:
+    replicas: 1
+    port: 8333
+    metricsPort: 9327
+    configSecret:
+      name: seaweedfs-secrets
+      key: seaweedfs_s3_config.json
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 1Gi

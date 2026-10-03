@@ -1,0 +1,53 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: seaweedfs-internal
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: seaweedfs
+      app.kubernetes.io/instance: seaweedfs
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: seaweedfs
+              app.kubernetes.io/instance: seaweedfs
+        # The operator queries component APIs during reconciliation.
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: seaweedfs-operator
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+      ports:
+        - port: 9324
+        - port: 9325
+        - port: 9326
+        - port: 9327
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: seaweedfs-s3-clients
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: seaweedfs
+      app.kubernetes.io/instance: seaweedfs
+      app.kubernetes.io/component: s3
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector: {}
+      ports:
+        - port: 8333
