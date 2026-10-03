@@ -12,14 +12,14 @@ ingress:
   tls:
     - secretName: nextcloud-tls
       hosts:
-        - nextcloud.nullmonkeys.com
+        - cloud.nullmonkeys.com
 
 phpClientHttpsFix:
   enabled: true
   protocol: https
 
 nextcloud:
-  host: nextcloud.nullmonkeys.com
+  host: cloud.nullmonkeys.com
 
   existingSecret:
     enabled: true
@@ -54,13 +54,54 @@ nextcloud:
 
   extraEnv:
     - name: OVERWRITECLIURL
-      value: "https://nextcloud.nullmonkeys.com"
+      value: "https://cloud.nullmonkeys.com"
 
     - name: APACHE_DISABLE_REWRITE_IP
       value: "1"
 
     - name: TRUSTED_PROXIES
       value: "10.42.0.0/16"
+
+  hooks:
+    before-starting: |
+      #!/bin/bash
+      set -eu
+
+      OCC="php /var/www/html/occ"
+
+      ensure_app() {
+        app="$1"
+
+        if ! $OCC app:getpath "$app" >/dev/null 2>&1; then
+          echo "Installing Nextcloud app: $app"
+          $OCC app:install "$app"
+        fi
+
+        if ! $OCC app:list --enabled | grep -qE "^[[:space:]]*-[[:space:]]+${app}:"; then
+          echo "Enabling Nextcloud app: $app"
+          $OCC app:enable "$app"
+        fi
+      }
+
+      ensure_disabled() {
+        app="$1"
+
+        if $OCC app:list --enabled | grep -qE "^[[:space:]]*-[[:space:]]+${app}:"; then
+          echo "Disabling Nextcloud app: $app"
+          $OCC app:disable "$app"
+        fi
+      }
+
+      ensure_disabled spreed
+
+      ensure_app user_oidc
+      ensure_app calendar
+      ensure_app collectives
+      ensure_app deck
+      ensure_app tasks
+      ensure_app tables
+      ensure_app notes
+      ensure_app richdocuments
 
 persistence:
   enabled: true
@@ -91,21 +132,77 @@ externalRedis:
     secretName: nextcloud-secrets
     passwordKey: redis-password
 
-# TODO
 collabora:
-  enabled: false
+  enabled: true
+  collabora:
+    aliasgroups:
+      - host: "https://cloud.nullmonkeys.com:443"
+
+    extra_params: >-
+      --o:ssl.enable=false
+      --o:ssl.termination=true
+
+    server_name: office.nullmonkeys.com
+
+    existingSecret:
+      enabled: true
+      secretName: nextcloud-secrets
+      usernameKey: "collabora-username"
+      passwordKey: "collabora-password"
+
+  ingress:
+    enabled: true
+    className: traefik
+
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+
+    hosts:
+      - host: office.nullmonkeys.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+    tls:
+      - secretName: collabora-tls
+        hosts:
+          - office.nullmonkeys.com
+
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1Gi
+      limits:
+        cpu: "2"
+        memory: 3Gi
 
 cronjob:
   enabled: true
   type: cronjob
+
+  cronjob:
+    affinity:
+      podAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - nextcloud
+                - key: app.kubernetes.io/component
+                  operator: In
+                  values:
+                    - app
+            topologyKey: kubernetes.io/hostname
 
 resources:
   requests:
     cpu: 250m
     memory: 1Gi
   limits:
-    cpu: 1
-    memory: 2Gi
+    cpu: "1"
+    memory: 4Gi
 
 metrics:
   enabled: true
