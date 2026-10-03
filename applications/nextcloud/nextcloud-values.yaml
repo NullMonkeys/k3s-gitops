@@ -132,6 +132,7 @@ nextcloud:
 
       ensure_app cookbook
       ensure_app cospend
+      ensure_app budget
 
 persistence:
   enabled: true
