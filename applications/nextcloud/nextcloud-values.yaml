@@ -128,7 +128,7 @@ nextcloud:
       ensure_app integration_github
 
       ensure_app assistant
-      ensure_app context_agent
+      ensure_app integration_openai
 
       ensure_app cookbook
       ensure_app cospend
