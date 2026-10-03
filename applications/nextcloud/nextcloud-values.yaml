@@ -9,6 +9,7 @@ ingress:
   className: traefik
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
+    traefik.ingress.kubernetes.io/router.middlewares: nextcloud-nextcloud-security@kubernetescrd
   tls:
     - secretName: nextcloud-tls
       hosts:
@@ -47,7 +48,12 @@ nextcloud:
         bucket: ""
         sse_c_key: ""
 
-  configs: {}
+  configs:
+    maintenance.config.php: |-
+      <?php
+      $CONFIG = array (
+        'maintenance_window_start' => 2,
+      );
 
   strategy:
     type: Recreate

@@ -8,6 +8,7 @@ resources:
   - nextcloud-s3.yaml
   - nextcloud-secrets.yaml
   - postgres-cluster.yaml
+  - traefik-middleware.yaml
 
 patches:
   - path: postgres-patch-init.yaml
