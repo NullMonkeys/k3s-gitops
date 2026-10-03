@@ -1,0 +1,128 @@
+---
+image:
+  flavor: apache
+
+replicaCount: 1
+
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: infisical-acme
+  tls:
+    - secretName: nextcloud-tls
+      hosts:
+        - nextcloud.nullmonkeys.com
+
+phpClientHttpsFix:
+  enabled: true
+  protocol: https
+
+nextcloud:
+  host: nextcloud.nullmonkeys.com
+
+  existingSecret:
+    enabled: true
+    secretName: nextcloud-secrets
+    usernameKey: nextcloud-username
+    passwordKey: nextcloud-password
+
+  mail:
+    enabled: false
+
+  objectStore:
+    s3:
+      enabled: true
+      host: seaweedfs-s3.seaweedfs.svc.cluster.local
+      port: "8333"
+      ssl: false
+      bucket: "nextcloud"
+      usePathStyle: true
+      autoCreate: false
+      existingSecret: nextcloud-s3
+      secretKeys:
+        host: ""
+        accessKey: accessKey
+        secretKey: secretKey
+        bucket: ""
+        sse_c_key: ""
+
+  configs: {}
+
+  strategy:
+    type: Recreate
+
+  extraEnv:
+    - name: OVERWRITECLIURL
+      value: "https://nextcloud.nullmonkeys.com"
+
+    - name: APACHE_DISABLE_REWRITE_IP
+      value: "1"
+
+    - name: TRUSTED_PROXIES
+      value: "10.42.0.0/16"
+
+persistence:
+  enabled: true
+  storageClass: longhorn
+  accessMode: ReadWriteOnce
+  size: 8Gi
+
+internalDatabase:
+  enabled: false
+
+externalDatabase:
+  enabled: true
+  type: postgresql
+  existingSecret:
+    enabled: true
+    secretName: "nextcloud-db-app"
+    usernameKey: "username"
+    passwordKey: "password"
+    hostKey: "host"
+    databaseKey: "dbname"
+
+externalRedis:
+  enabled: true
+  host: redis-master
+  port: "6379"
+  existingSecret:
+    enabled: true
+    secretName: nextcloud-secrets
+    passwordKey: redis-password
+
+# TODO
+collabora:
+  enabled: false
+
+cronjob:
+  enabled: true
+  type: cronjob
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 1Gi
+  limits:
+    cpu: 1
+    memory: 2Gi
+
+metrics:
+  enabled: true
+  replicaCount: 1
+
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
+prometheus:
+  serviceMonitor:
+    enabled: true
+    interval: 30s
+
+  rules:
+    enabled: true

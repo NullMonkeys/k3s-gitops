@@ -1,0 +1,53 @@
+---
+architecture: replication
+
+auth:
+  enabled: true
+  sentinel: true
+  existingSecret: nextcloud-secrets
+  existingSecretPasswordKey: redis-password
+
+commonConfiguration: |-
+  appendonly yes
+  appendfsync everysec
+  save ""
+  maxmemory 256mb
+  maxmemory-policy noeviction
+
+replica:
+  replicaCount: 3
+  podAntiAffinityPreset: hard
+  automountServiceAccountToken: true
+  persistence:
+    enabled: true
+    storageClass: longhorn
+    size: 1Gi
+  pdb:
+    create: true
+    minAvailable: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 512Mi
+
+sentinel:
+  enabled: true
+  masterSet: nextcloud
+  quorum: 2
+  downAfterMilliseconds: 10000
+  failoverTimeout: 60000
+  masterService:
+    enabled: true
+  resources:
+    requests:
+      cpu: 25m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
+rbac:
+  create: true

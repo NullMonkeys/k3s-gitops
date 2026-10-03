@@ -1,0 +1,22 @@
+---
+apiVersion: seaweed.seaweedfs.com/v1
+kind: Bucket
+
+metadata:
+  name: nextcloud
+  namespace: seaweedfs
+  annotations:
+    argocd.argoproj.io/sync-wave: "20"
+
+spec:
+  clusterRef:
+    name: seaweedfs
+    namespace: seaweedfs
+  reclaimPolicy: Retain
+  access:
+    - user: nextcloud
+      actions:
+        - Read
+        - Write
+        - List
+        - Tagging

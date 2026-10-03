@@ -9,7 +9,7 @@ metadata:
 spec:
   valuesContent: |
     deployment:
-      replicas: 2
+      replicas: 3
 
     service:
       spec:

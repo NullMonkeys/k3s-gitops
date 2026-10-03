@@ -7,6 +7,8 @@ namespace: seaweedfs
 resources:
   - storageclass.yaml
   - cluster.yaml
+  - nextcloud-access-grant.yaml
+  - nextcloud-bucket.yaml
 
 helmCharts:
   - name: seaweedfs-operator

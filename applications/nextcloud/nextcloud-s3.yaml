@@ -1,0 +1,38 @@
+---
+apiVersion: seaweed.seaweedfs.com/v1
+kind: S3Identity
+
+metadata:
+  name: nextcloud
+  namespace: nextcloud
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+
+spec:
+  seaweedRef:
+    name: seaweedfs
+    namespace: seaweedfs
+  reclaimPolicy: Delete
+
+---
+apiVersion: seaweed.seaweedfs.com/v1
+kind: S3Credentials
+
+metadata:
+  name: nextcloud-s3
+  namespace: nextcloud
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+
+spec:
+  seaweedRef:
+    name: seaweedfs
+    namespace: seaweedfs
+  identityRef:
+    name: nextcloud
+
+  secretRef:
+    name: nextcloud-s3
+    accessKeyField: accessKey
+    secretKeyField: secretKey
+  reclaimPolicy: Delete
