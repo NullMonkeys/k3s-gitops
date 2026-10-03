@@ -1,13 +1,8 @@
 replicaCount: 1
 
-commonAnnotations:
-  argocd.argoproj.io/sync-wave: "0"
-
 grafanaDashboard:
-  enabled: false
+  enabled: true
 
-# This monitor scrapes the operator. The Seaweed resource enables monitors
-# for master, volume, filer, and S3 independently via metricsPort.
 serviceMonitor:
   enabled: true
   interval: 30s
