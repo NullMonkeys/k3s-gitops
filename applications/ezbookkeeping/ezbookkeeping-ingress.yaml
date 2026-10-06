@@ -1,0 +1,29 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: ezbookkeeping-ingress
+  namespace: ezbookkeeping
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+    cert-manager.io/cluster-issuer: letsencrypt
+
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: ezbookkeeping.nullmonkeys.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ezbookkeeping-svc
+                port:
+                  number: 8080
+
+  tls:
+    - secretName: ezbookkeeping-tls-secret
+      hosts:
+        - ezbookkeeping.nullmonkeys.com

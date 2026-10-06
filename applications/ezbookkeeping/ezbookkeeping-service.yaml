@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: ezbookkeeping-svc
+  namespace: ezbookkeeping
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  labels:
+    app: ezbookkeeping
+
+spec:
+  clusterIP: None
+
+  ports:
+    - port: 8080
+
+  selector:
+    app: ezbookkeeping

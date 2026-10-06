@@ -1,0 +1,42 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+
+metadata:
+  name: ezbookkeeping-db
+  namespace: ezbookkeeping
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+
+spec:
+  instances: 3
+
+  monitoring:
+    enablePodMonitor: true
+
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+
+  storage:
+    size: 3Gi
+    storageClass: longhorn
+
+  backup:
+    retentionPolicy: "3d"
+
+    barmanObjectStore:
+      destinationPath: s3://ezbookkeeping-backups
+      endpointURL: https://451fb6a669f1b3cb2ac4fdbfce4a2201.r2.cloudflarestorage.com
+
+      s3Credentials:
+        accessKeyId:
+          name: ezbookkeeping-secrets
+          key: cloudflare-r2-access-key
+        secretAccessKey:
+          name: ezbookkeeping-secrets
+          key: cloudflare-r2-secret-key
+
+      wal:
+        compression: gzip
+        maxParallel: 8
