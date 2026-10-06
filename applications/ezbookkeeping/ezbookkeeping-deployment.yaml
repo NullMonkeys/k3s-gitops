@@ -1,0 +1,126 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: ezbookkeeping
+  namespace: ezbookkeeping
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  labels:
+    app: ezbookkeeping
+
+spec:
+  selector:
+    matchLabels:
+      app: ezbookkeeping
+
+  strategy:
+    type: Recreate
+
+  template:
+    metadata:
+      labels:
+        app: ezbookkeeping
+
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+
+      containers:
+        - image: mayswind/ezbookkeeping:2.0.1
+          imagePullPolicy: IfNotPresent
+          name: ezbookkeeping
+          envFrom:
+            - secretRef:
+                name: ezbookkeeping-secrets
+          env:
+            - name: EBK_SERVER_PROTOCOL
+              value: "http"
+            - name: EBK_SERVER_DOMAIN
+              value: "ezbookkeeping.nullmonkeys.com"
+            - name: EBK_SERVER_ROOT_URL
+              value: "https://ezbookkeeping.nullmonkeys.com"
+            - name: EBK_SERVER_ENABLE_GZIP
+              value: "true"
+            - name: EBK_LOG_MODE
+              value: "console"
+
+            - name: EBK_USER_ENABLE_REGISTER
+              value: "true"
+            - name: EBK_USER_AVATAR_PROVIDER
+              value: "gravatar"
+
+            - name: EBK_AUTH_ENABLE_INTERNAL_AUTH
+              value: "false"
+            - name: EBK_AUTH_ENABLE_OAUTH2_AUTH
+              value: "true"
+            - name: EBK_AUTH_OAUTH2_AUTO_REGISTER
+              value: "true"
+            - name: EBK_AUTH_OAUTH2_PROVIDER
+              value: "oidc"
+            - name: EBK_AUTH_ENABLE_OIDC_DISPLAY_NAME
+              value: "true"
+            - name: EBK_AUTH_OIDC_PROVIDER_BASE_URL
+              value: "https://auth.nullmonkeys.com/application/o/ezbookkeeping/"
+            - name: EBK_AUTH_OIDC_CUSTOM_DISPLAY_NAME
+              value: "NullMonkeys Auth"
+
+            - name: EBK_MCP_ENABLE_MCP
+              value: "true"
+
+            - name: EBK_DATABASE_TYPE
+              value: "postgres"
+            - name: EBK_DATABASE_HOST
+              value: "ezbookkeeping-db-rw:5432"
+            - name: EBK_DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ezbookkeeping-db-app
+                  key: username
+            - name: EBK_DATABASE_PASSWD
+              valueFrom:
+                secretKeyRef:
+                  name: ezbookkeeping-db-app
+                  key: password
+            - name: EBK_DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: ezbookkeeping-db-app
+                  key: dbname
+            - name: EBK_DATABASE_MAX_OPEN_CONN
+              value: "10"
+
+            - name: EBK_STORAGE_TYPE
+              value: "s3"
+            - name: EBK_STORAGE_S3_ENDPOINT
+              value: "seaweedfs-s3.seaweedfs.svc.cluster.local:8333"
+            - name: EBK_STORAGE_S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: ezbookkeeping-s3-creds
+                  key: accessKey
+            - name: EBK_STORAGE_S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ezbookkeeping-s3-creds
+                  key: secretKey
+            - name: EBK_STORAGE_S3_USE_PATH_STYLE
+              value: "true"
+
+            - name: EBK_EXCHANGE_RATES_DATA_SOURCE
+              value: "national_bank_of_ukraine"
+
+          ports:
+            - containerPort: 8080
+              name: ezbookkeeping
+
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "2"

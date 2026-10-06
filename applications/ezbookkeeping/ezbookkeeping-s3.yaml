@@ -1,0 +1,90 @@
+---
+apiVersion: seaweed.seaweedfs.com/v1
+kind: Bucket
+
+metadata:
+  name: ezbookkeeping
+  namespace: ezbookkeeping
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+
+spec:
+  clusterRef:
+    name: seaweedfs
+    namespace: seaweedfs
+  reclaimPolicy: Retain
+  quota:
+    size: 1Gi
+    enforce: true
+  access:
+    - user: ezbookkeeping
+      actions:
+        - Read
+        - Write
+        - List
+        - Tagging
+
+---
+apiVersion: seaweed.seaweedfs.com/v1
+kind: S3Identity
+
+metadata:
+  name: ezbookkeeping-s3-identity
+  namespace: ezbookkeeping
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+
+spec:
+  name: ezbookkeeping
+  seaweedRef:
+    name: seaweedfs
+    namespace: seaweedfs
+  reclaimPolicy: Delete
+
+---
+apiVersion: seaweed.seaweedfs.com/v1
+kind: S3Credentials
+
+metadata:
+  name: ezbookkeeping-s3-creds
+  namespace: ezbookkeeping
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+
+spec:
+  seaweedRef:
+    name: seaweedfs
+    namespace: seaweedfs
+  identityRef:
+    name: ezbookkeeping-s3-identity
+  secretRef:
+    name: ezbookkeeping-s3-creds
+    accessKeyField: accessKey
+    secretKeyField: secretKey
+  reclaimPolicy: Delete
+
+---
+apiVersion: seaweed.seaweedfs.com/v1
+kind: ResourceReferenceGrant
+
+metadata:
+  name: ezbookkeeping-s3
+  namespace: seaweedfs
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"
+
+spec:
+  from:
+    - group: seaweed.seaweedfs.com
+      kind: Bucket
+      namespace: ezbookkeeping
+    - group: seaweed.seaweedfs.com
+      kind: S3Identity
+      namespace: ezbookkeeping
+    - group: seaweed.seaweedfs.com
+      kind: S3Credentials
+      namespace: ezbookkeeping
+  to:
+    - group: seaweed.seaweedfs.com
+      kind: Seaweed
+      name: seaweedfs

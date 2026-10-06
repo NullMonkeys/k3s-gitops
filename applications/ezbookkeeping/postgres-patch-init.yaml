@@ -1,0 +1,13 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+
+metadata:
+  name: ezbookkeeping-db
+  namespace: ezbookkeeping
+
+spec:
+  bootstrap:
+    initdb:
+      database: ezbookkeeping
+      owner: ezbookkeeping
