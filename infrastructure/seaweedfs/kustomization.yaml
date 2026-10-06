@@ -8,8 +8,6 @@ resources:
   - storageclass.yaml
   - cluster.yaml
   - admin.yaml
-  - nextcloud-access-grant.yaml
-  - nextcloud-bucket.yaml
 
 helmCharts:
   - name: seaweedfs-operator
