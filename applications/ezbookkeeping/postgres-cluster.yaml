@@ -9,7 +9,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
 
 spec:
-  instances: 3
+  instances: 1
 
   monitoring:
     enablePodMonitor: true
