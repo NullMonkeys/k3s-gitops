@@ -49,13 +49,15 @@ spec:
               value: "console"
 
             - name: EBK_USER_ENABLE_REGISTER
-              value: "false"
+              value: "true"
             - name: EBK_USER_AVATAR_PROVIDER
               value: "gravatar"
 
             - name: EBK_AUTH_ENABLE_INTERNAL_AUTH
               value: "false"
             - name: EBK_AUTH_ENABLE_OAUTH2_AUTH
+              value: "true"
+            - name: EBK_AUTH_OAUTH2_AUTO_REGISTER
               value: "true"
             - name: EBK_AUTH_OAUTH2_PROVIDER
               value: "oidc"
