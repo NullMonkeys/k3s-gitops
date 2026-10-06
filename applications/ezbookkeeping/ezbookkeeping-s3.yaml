@@ -13,6 +13,9 @@ spec:
     name: seaweedfs
     namespace: seaweedfs
   reclaimPolicy: Retain
+  quota:
+    size: 1Gi
+    enforce: true
   access:
     - user: ezbookkeeping
       actions:
