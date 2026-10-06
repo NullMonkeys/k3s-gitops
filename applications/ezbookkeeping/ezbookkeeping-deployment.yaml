@@ -72,9 +72,7 @@ spec:
             - name: EBK_DATABASE_TYPE
               value: "postgres"
             - name: EBK_DATABASE_HOST
-              value: "ezbookkeeping-db-rw"
-            - name: EBK_DATABASE_PORT
-              value: "5432"
+              value: "ezbookkeeping-db-rw:5432"
             - name: EBK_DATABASE_USER
               valueFrom:
                 secretKeyRef:
