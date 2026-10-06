@@ -12,6 +12,19 @@ spec:
   image: chrislusf/seaweedfs:4.48
   volumeServerDiskCount: 1
 
+  admin:
+    extraArgs:
+      - -ip=0.0.0.0
+      - -allowInsecureBind
+      - -dataDir=/data/admin
+    volumes:
+      - name: admin-data
+        persistentVolumeClaim:
+          claimName: seaweedfs-admin-data
+    volumeMounts:
+      - name: admin-data
+        mountPath: /data/admin
+
   master:
     replicas: 1
     volumeSizeLimitMB: 1024

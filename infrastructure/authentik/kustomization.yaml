@@ -6,6 +6,7 @@ namespace: authentik
 
 resources:
   - authentik-secrets.yaml
+  - seaweedfs-outpost-ingress.yaml
   - postgres-cluster.yaml
   - postgres-backup.yaml
 
