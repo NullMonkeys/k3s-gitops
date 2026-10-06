@@ -95,7 +95,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: ezbookkeeping-db-app
-                  key: name
+                  key: dbname
             - name: EBK_DATABASE_MAX_OPEN_CONN
               value: "10"
 
