@@ -113,6 +113,55 @@ spec:
             - name: EBK_EXCHANGE_RATES_DATA_SOURCE
               value: "national_bank_of_ukraine"
 
+            - name: EBK_AI_TRANSACTION_FROM_AI_TEXT_RECOGNITION
+              value: "true"
+            - name: EBK_AI_TRANSACTION_FROM_AI_IMAGE_RECOGNITION
+              value: "true"
+            - name: EBK_AI_INSIGHTS_EXPLORER_CODING_ASSISTANT
+              value: "true"
+
+            - name: EBK_LLM_TEXT_RECOGNITION_LLM_PROVIDER
+              value: "openai_compatible"
+            - name: EBK_LLM_TEXT_RECOGNITION_ENABLE_THINKING
+              value: "medium"
+            - name: EBK_LLM_TEXT_RECOGNITION_OPENAI_COMPATIBLE_BASE_URL
+              value: "https://api.deepseek.com"
+            - name: EBK_LLM_TEXT_RECOGNITION_OPENAI_COMPATIBLE_MODEL_ID
+              value: "deepseek-flash"
+            - name: EBK_LLM_TEXT_RECOGNITION_OPENAI_COMPATIBLE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ezbookkeeping-secrets
+                  key: deepseek-api-key
+
+            - name: EBK_LLM_IMAGE_RECOGNITION_LLM_PROVIDER
+              value: "openai_compatible"
+            - name: EBK_LLM_IMAGE_RECOGNITION_ENABLE_THINKING
+              value: "medium"
+            - name: EBK_LLM_IMAGE_RECOGNITION_OPENAI_COMPATIBLE_BASE_URL
+              value: "https://api.deepseek.com"
+            - name: EBK_LLM_IMAGE_RECOGNITION_OPENAI_COMPATIBLE_MODEL_ID
+              value: "deepseek-flash"
+            - name: EBK_LLM_IMAGE_RECOGNITION_OPENAI_COMPATIBLE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ezbookkeeping-secrets
+                  key: deepseek-api-key
+
+            - name: EBK_LLM_CODING_ASSISTANT_LLM_PROVIDER
+              value: "openai_compatible"
+            - name: EBK_LLM_CODING_ASSISTANT_ENABLE_THINKING
+              value: "medium"
+            - name: EBK_LLM_CODING_ASSISTANT_OPENAI_COMPATIBLE_BASE_URL
+              value: "https://api.deepseek.com"
+            - name: EBK_LLM_CODING_ASSISTANT_OPENAI_COMPATIBLE_MODEL_ID
+              value: "deepseek-flash"
+            - name: EBK_LLM_CODING_ASSISTANT_OPENAI_COMPATIBLE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ezbookkeeping-secrets
+                  key: deepseek-api-key
+
           ports:
             - containerPort: 8080
               name: ezbookkeeping
