@@ -79,3 +79,23 @@ metrics:
     enabled: true
     interval: 30s
     scrapeTimeout: 10s
+
+extraInitContainers:
+  - name: prepare-data-volume
+    image: busybox:1.36
+    command: ["/bin/sh", "-ec"]
+    args:
+      - |
+        if [ -d /data/lost+found ]; then
+          rmdir /data/lost+found
+        fi
+    securityContext:
+      runAsUser: 0
+      runAsNonRoot: false
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+    volumeMounts:
+      - name: youtrack-data
+        mountPath: /data
