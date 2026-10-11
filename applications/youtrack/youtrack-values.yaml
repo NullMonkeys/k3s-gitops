@@ -1,0 +1,81 @@
+---
+initContainerResources:
+  requests:
+    cpu: 300m
+    memory: 2Gi
+  limits:
+    cpu: "1"
+    memory: 3Gi
+
+resources:
+  requests:
+    cpu: 300m
+    memory: 2Gi
+  limits:
+    cpu: "2"
+    memory: 4Gi
+
+persistence:
+  data:
+    name: youtrack-data
+    storageClassName: longhorn
+    storageSize: 25Gi
+    accessModes:
+      - ReadWriteOnce
+
+  logs:
+    name: youtrack-logs
+    storageClassName: longhorn
+    storageSize: 5Gi
+    accessModes:
+      - ReadWriteOnce
+
+  conf:
+    name: youtrack-config
+    storageClassName: longhorn
+    storageSize: 1Gi
+    accessModes:
+      - ReadWriteOnce
+
+  backups:
+    backupType: volumeStorage
+    name: youtrack-backup
+
+    volumeStorage:
+      storageClassName: longhorn
+      storageSize: 50Gi
+      accessModes:
+        - ReadWriteOnce
+
+config:
+  name: configmap
+  baseUrl: "https://youtrack.nullmonkeys.com"
+  options:
+
+ingress:
+  enabled: true
+  name: youtrack-ingress
+  ingressClassName: traefik
+
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+
+  hosts:
+    - host: youtrack.nullmonkeys.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+  tls:
+    - secretName: youtrack-tls
+      hosts:
+        - youtrack.nullmonkeys.com
+
+metrics:
+  enabled: true
+  port: 9404
+
+  serviceMonitor:
+    enabled: true
+    interval: 30s
+    scrapeTimeout: 10s
